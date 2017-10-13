@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="titlecolor">#ff2081D9</color>
+    <color name="line_color">#dadada</color>
+    <color name="normalcolor">#ff333333</color>
+    <color name="itemcolor">#ffffffff</color>
+    <color name="itemcolor_press">#fff0f0f0</color>
+
+    <color name="black">#FF000000</color>
+    <color name="gray">#A52A2A</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="button_color">#ff99cc00</color>
+
+    <color name="background_color">#eaf4fa</color>
+    <color name="flash_background_color">#3d3d3d</color>
+</resources>

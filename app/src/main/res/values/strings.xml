@@ -1,0 +1,162 @@
+<resources>
+    <string name="app_name">一加精灵</string>
+    <string name="app_name_setting">【一加精灵】</string>
+    <string name="description">【一加精灵】：打开辅助权限，帮助你自动添加好友,软件不会记录任何用户隐私信息，请放心开启权限!\n\n【如果权限开启了，还是不会自动添加好友，请关闭权限后再重新开启】\n\n【官方交流QQ群：654565821】</string>
+    <string name="number_creater">生成联系人</string>
+    <string name="quto_add_peopler">自动加人</string>
+    <string name="stop_add_people">停止加人</string>
+    <string name="chose_center_number">选择区段号</string>
+    <string name="create_number">*生成个数：</string>
+    <string name="create_num_hint">默认生成20个</string>
+    <string name="save">保存到通讯录</string>
+    <string name="delete_number">删除已生成号码</string>
+    <string name="center_four_number">中间4位：</string>
+    <string name="qx">区号：</string>
+    <string name="choose">选择</string>
+
+    <string name="dialog_title">提示</string>
+    <string name="dialog_ok">确定</string>
+    <string name="dialog_custom">自定义</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="create_number_record">生成记录</string>
+    <string name="validate_sentence">加人验证信息</string>
+    <string name="show_flow_window">显示悬浮窗</string>
+    <string name="close_flow_window">关闭悬浮窗</string>
+    <string name="back">返回</string>
+    <string name="validity_software">激活软件</string>
+    <string name="already_validity_software">已经激活软件</string>
+    <string name="validity">激活</string>
+    <string name="validity_account">激活账号：</string>
+    <string name="begin_add_people">开始加人</string>
+    <string name="auto_add_near_people">自动加附近的人</string>
+    <string name="feedback">意见反馈</string>
+    <string name="input_qq_number"></string>
+    <string name="input_wechat"></string>
+    <string name="submit">提交</string>
+    <string name="can_manul_input">输入4位数字</string>
+    <string name="choose_area">*选择地区：</string>
+    <string name="choose_yys">选择运营商：</string>
+    <string name="choose_hd">*选择号段：</string>
+    <string name="actual_number">*精确号段：</string>
+    <string name="success_tips">您已经激活了软件，欢迎加入交流群交流：\n\n【官方交流QQ群：654565821】</string>
+    <string name="feedback_tips">欢迎加入QQ群反馈：【QQ群：654565821】</string>
+    <string name="auto_add_people_tips">1、自动添加好友的时候，如果发现不会添加好友或者失败了，建议【重新开启权限】，重新点击按钮进入微信界面  \n\n2、需要停止加人，点击悬浮窗的停止加人按钮，如果没有悬浮窗，请看【帮助】  \n\n3、请勿重复添加好友，添加过得好友可以【长按】联系人删掉 \n\n4、功能还在【内测】，有时候会自动断掉</string>
+    <string name="home_page">主界面</string>
+    <string name="publish_group">立即发布群组</string>
+    <string name="save_to_phone">保存图片到手机</string>
+    <string name="publish">立即发布</string>
+
+    <string-array name="city">
+        <item>北京</item>
+        <item>上海</item>
+        <item>重庆</item>
+        <item>云南</item>
+        <item>内蒙古</item>
+        <item>吉林</item>
+        <item>四川</item>
+        <item>天津</item>
+        <item>宁夏</item>
+        <item>安徽</item>
+        <item>山东</item>
+        <item>山西</item>
+        <item>广东</item>
+        <item>广西</item>
+        <item>新疆</item>
+        <item>江苏</item>
+        <item>江西</item>
+        <item>河北</item>
+        <item>河南</item>
+        <item>浙江</item>
+        <item>海南</item>
+        <item>湖北</item>
+        <item>湖南</item>
+        <item>甘肃</item>
+        <item>福建</item>
+        <item>西藏</item>
+        <item>贵州</item>
+        <item>辽宁</item>
+        <item>陕西</item>
+        <item>青海</item>
+        <item>黑龙江</item>
+    </string-array>
+
+    <string-array name="city_pinyin">
+        <item>beijing</item>
+        <item>shanghai</item>
+        <item>chongqing</item>
+        <item>yunnan</item>
+        <item>neimenggu</item>
+        <item>jilin</item>
+        <item>sichuan</item>
+        <item>tianjin</item>
+        <item>ningxia</item>
+        <item>anhui</item>
+        <item>shandong</item>
+        <item>shanxi2</item>
+        <item>guangdong</item>
+        <item>guangxi</item>
+        <item>xinjiang</item>
+        <item>jiangsu</item>
+        <item>jiangxi</item>
+        <item>hebei</item>
+        <item>henan</item>
+        <item>zhejiang</item>
+        <item>hainan</item>
+        <item>hubei</item>
+        <item>hunan</item>
+        <item>gansu</item>
+        <item>fujian</item>
+        <item>xicang</item>
+        <item>guizhou</item>
+        <item>liaoning</item>
+        <item>shanxi</item>
+        <item>qinghai</item>
+        <item>heilongjiang</item>
+    </string-array>
+
+    <string-array name="yys">
+        <item>中国移动</item>
+        <item>中国联通</item>
+        <item>中国电信</item>
+    </string-array>
+
+    <!--移动-->
+    <string-array name="yd_qh">
+        <item>134</item>
+        <item>135</item>
+        <item>136</item>
+        <item>137</item>
+        <item>138</item>
+        <item>139</item>
+        <item>147</item>
+        <item>150</item>
+        <item>151</item>
+        <item>152</item>
+        <item>157</item>
+        <item>158</item>
+        <item>159</item>
+        <item>188</item>
+    </string-array>
+
+    <!--联通-->
+    <string-array name="lt_qh">
+        <item>130</item>
+        <item>131</item>
+        <item>132</item>
+        <item>155</item>
+        <item>156</item>
+        <item>186</item>
+    </string-array>
+
+    <!--电信-->
+    <string-array name="dx_qh">
+        <item>133</item>
+        <item>153</item>
+        <item>189</item>
+    </string-array>
+
+    <string-array name="sentence">
+        <item>你好</item>
+    </string-array>
+
+</resources>

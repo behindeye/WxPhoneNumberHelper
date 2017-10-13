@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context="czc.wxphonenumberhelper.activity.SentenceActivity">
+
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/lv_sentence"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <include layout="@layout/layout_empty_view" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_sentence"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_add_sentence"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:textColor="@drawable/selector_button_text"
+            android:background="@drawable/selector_button"
+            android:textSize="12sp"
+            android:text="添加" />
+    </LinearLayout>
+
+</LinearLayout>

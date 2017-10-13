@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context="czc.wxphonenumberhelper.activity.RecordActivity">
+
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/lv_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </com.baoyz.swipemenulistview.SwipeMenuListView>
+
+    <include layout="@layout/layout_empty_view"/>
+
+    <Button
+        android:id="@+id/btn_clearNum"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="21dp"
+        android:layout_marginRight="21dp"
+        android:background="@drawable/selector_button"
+        android:text="@string/delete_number"
+        android:textColor="@drawable/selector_button_text"/>
+
+</LinearLayout>
