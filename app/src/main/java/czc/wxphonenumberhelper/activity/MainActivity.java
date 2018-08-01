@@ -20,7 +20,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
 import cn.bmob.v3.update.UpdateResponse;
 import cn.bmob.v3.update.UpdateStatus;
-import czc.wxphonenumberhelper.Common.FuncItemFactory;
+import czc.wxphonenumberhelper.common.FuncItemFactory;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.adapter.FuncAdapter;
 import czc.wxphonenumberhelper.constant.Const;
