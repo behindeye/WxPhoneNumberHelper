@@ -12,7 +12,7 @@ import org.greenrobot.eventbus.EventBus;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.activity.MainActivity;
 import czc.wxphonenumberhelper.constant.Const;
-import czc.wxphonenumberhelper.controller.MyWindowManager;
+import czc.wxphonenumberhelper.presenter.MyWindowManager;
 import czc.wxphonenumberhelper.util.PreferenceHelper;
 
 /**

@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 
 import czc.wxphonenumberhelper.R;
-import czc.wxphonenumberhelper.controller.MyWindowManager;
+import czc.wxphonenumberhelper.presenter.MyWindowManager;
 
 /**
  * Created by czc on 2017/6/30.
@@ -127,8 +127,12 @@ public class FloatWindowSmallView extends LinearLayout {
      * 打开大悬浮窗，同时关闭小悬浮窗。
      */
     private void openBigWindow() {
-        MyWindowManager.createBigWindow(getContext());
-        MyWindowManager.removeSmallWindow(getContext());
+        try {
+            MyWindowManager.createBigWindow(getContext());
+            MyWindowManager.removeSmallWindow(getContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

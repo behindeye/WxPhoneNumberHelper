@@ -9,7 +9,7 @@ import czc.wxphonenumberhelper.MyApplication;
 public class PreferenceHelper {
 
     public static SharedPreferences getDefaultPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(MyApplication.getApplication());
+        return PreferenceManager.getDefaultSharedPreferences(MyApplication.getAppContext());
     }
 
     public static boolean remove(String key) {

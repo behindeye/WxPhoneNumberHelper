@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class ContactUtil {
 
-    public static final String SK = "客_";
+    public static final String SK = "YJ_";
 
     // 插入联系人
     public static synchronized boolean insert(Context context, String given_name, String mobile_number) {
@@ -47,7 +47,7 @@ public class ContactUtil {
                     values.clear();
                     values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
                     values.put(ContactsContract.Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE);
-                    values.put(Phone.NUMBER, mobile_number.replace(SK, ""));
+                    values.put(Phone.NUMBER, mobile_number);
                     values.put(Phone.TYPE, Phone.TYPE_MOBILE);
                     context.getContentResolver().insert(ContactsContract.Data.CONTENT_URI, values);
                 }

@@ -1,4 +1,4 @@
-package czc.wxphonenumberhelper.controller;
+package czc.wxphonenumberhelper.presenter;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,18 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import czc.wxphonenumberhelper.MyApplication;
 import czc.wxphonenumberhelper.activity.CreateNumberActivity;
 import czc.wxphonenumberhelper.activity.MainActivity;
 import czc.wxphonenumberhelper.constant.Const;
+import czc.wxphonenumberhelper.manager.DBManager;
+import czc.wxphonenumberhelper.model.PhoneRecord;
 import czc.wxphonenumberhelper.util.ContactUtil;
-import czc.wxphonenumberhelper.util.PreferenceHelper;
 import czc.wxphonenumberhelper.util.ToastUtil;
 import rx.Observable;
 import rx.Subscriber;
@@ -31,13 +30,14 @@ import rx.schedulers.Schedulers;
  * Created by czc on 2017/6/25.
  */
 
-public class CreateNumberControllerImpl implements PhoneController {
+public class CreateNumberControllerImpl implements PhonePresenter {
     private ProgressDialog mDialog;
     private CreateNumberActivity mActivity;
     private List<String> mCreNumList = new ArrayList<>();
 
     private String mQhNumber;
     private String mCenterNumber;
+    private String mNumberFlag;
     private int mNumber;
 
     public CreateNumberControllerImpl(Activity act) {
@@ -52,6 +52,7 @@ public class CreateNumberControllerImpl implements PhoneController {
         Bundle bundle = mActivity.getIntent().getExtras();
         if (bundle != null) {
             mQhNumber = bundle.getString(Const.KEY_HD);
+            mNumberFlag = bundle.getString(Const.KEY_CREATE_PHONE_NUMBER_FLAG);
             mCenterNumber = bundle.getString(Const.KEY_CENTER_NUMBER);
             mNumber = bundle.getInt(Const.KEY_CREATE_PHONE_NUMBER);
         }
@@ -70,21 +71,20 @@ public class CreateNumberControllerImpl implements PhoneController {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 Log.i("czc", mCreNumList.size() + "个");
-                for (String phoneNumber : mCreNumList) {
-                    ContactUtil.insert(mActivity, phoneNumber, phoneNumber);
-                }
 
-                if (mCreNumList != null && mCreNumList.size() > 0) {
-                    String numberJson = PreferenceHelper.getString(Const.PREF_KEY_NUMBERS, "");
-                    Gson gson = new Gson();
-                    ArrayList<String> list = gson.fromJson(numberJson, new TypeToken<ArrayList<String>>() {
-                    }.getType());
-                    if (list != null && list.size() > 0) {
-                        mCreNumList.addAll(list);
-                    }
-                    String saveJson = gson.toJson(mCreNumList);
-                    PreferenceHelper.putString(Const.PREF_KEY_NUMBERS, saveJson);
+                List<PhoneRecord> recordList = new ArrayList<PhoneRecord>();
+                for (String number : mCreNumList) {
+                    String name = mNumberFlag + number;
+                    PhoneRecord record = new PhoneRecord();
+                    record.setName(name);
+                    record.setNumber(number);
+                    recordList.add(record);
+                    ContactUtil.insert(mActivity, name, number);
                 }
+                DBManager.getInstance(MyApplication.getAppContext())
+                        .getSession()
+                        .getPhoneRecordDao()
+                        .insertInTx(recordList);
                 subscriber.onNext(true);
                 subscriber.onCompleted();
             }
@@ -122,7 +122,7 @@ public class CreateNumberControllerImpl implements PhoneController {
             String phoneNumber = mQhNumber + mCenterNumber + getEnd4Number();
 //            Log.i("czc", phoneNumber);
             if (!mCreNumList.contains(phoneNumber)) {
-                mCreNumList.add(ContactUtil.SK + phoneNumber);
+                mCreNumList.add(phoneNumber);
             }
         }
         if (mCreNumList.size() < mNumber) {

@@ -755,7 +755,7 @@ public class ToolsUtil {
 	}
 
 	public static String getDataStoragePath() {
-		Context context = MyApplication.getApplication();
+		Context context = MyApplication.getAppContext();
 		return context.getDir("一加精灵", Context.MODE_PRIVATE).getAbsolutePath() + "/";
 	}
 

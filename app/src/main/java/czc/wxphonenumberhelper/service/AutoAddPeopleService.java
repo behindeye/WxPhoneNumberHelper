@@ -17,10 +17,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import czc.wxphonenumberhelper.constant.Const;
-import czc.wxphonenumberhelper.controller.AddContactController;
-import czc.wxphonenumberhelper.controller.AddNearPeopleController;
-import czc.wxphonenumberhelper.controller.AddPeopleInterface;
-import czc.wxphonenumberhelper.controller.QuickAddContactController;
+import czc.wxphonenumberhelper.presenter.AddContactController;
+import czc.wxphonenumberhelper.presenter.AddNearPeopleController;
+import czc.wxphonenumberhelper.presenter.AddPeopleInterface;
+import czc.wxphonenumberhelper.presenter.QuickAddContactController;
 import czc.wxphonenumberhelper.util.PreferenceHelper;
 
 /**

@@ -1,6 +1,5 @@
-package czc.wxphonenumberhelper.controller;
+package czc.wxphonenumberhelper.presenter;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,8 +15,8 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import czc.wxphonenumberhelper.activity.CenterNumListActivity;
 import czc.wxphonenumberhelper.constant.Const;
+import czc.wxphonenumberhelper.view.ICenterNumView;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -25,17 +24,20 @@ import okhttp3.Request;
  * Created by czc on 2017/6/25.
  */
 
-public class CenterNumControllerImpl implements BaseController {
+public class CenterNumPresenter implements BasePresenter {
     private List<String> mPhoneList = new ArrayList<>();
-    private CenterNumListActivity mActivity;
+    private ICenterNumView mView;
 
-    public CenterNumControllerImpl(Activity act) {
-        mActivity = (CenterNumListActivity) act;
+    public CenterNumPresenter(ICenterNumView view) {
+        mView = view;
     }
 
     @Override
     public void initData() {
-        Bundle bundle = mActivity.getIntent().getExtras();
+
+    }
+
+    public void getDateFromNet(Bundle bundle){
         if (bundle != null) {
             String cityPinYin = bundle.getString(Const.KEY_CITY_PIN_YIN);
             String hd = bundle.getString(Const.KEY_HD);
@@ -47,7 +49,7 @@ public class CenterNumControllerImpl implements BaseController {
                     .execute(new StringCallback() {
                         @Override
                         public void onError(Call call, Exception e, int id) {
-                            mActivity.error();
+                            mView.error();
                         }
 
                         @Override
@@ -65,17 +67,17 @@ public class CenterNumControllerImpl implements BaseController {
                                 }
                             }
                             Log.i("czc", mPhoneList.size() + "个");
-                            mActivity.success(mPhoneList);
+                            mView.success(mPhoneList);
                         }
 
                         @Override
                         public void onBefore(Request request, int id) {
-                            mActivity.begin();
+                            mView.begin();
                         }
 
                         @Override
                         public void onAfter(int id) {
-                            mActivity.end();
+                            mView.end();
                         }
                     });
         }

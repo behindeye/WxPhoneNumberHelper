@@ -32,6 +32,7 @@ public class Const {
     public static final String KEY_HD = "KEY_HD";
     public static final String KEY_CENTER_NUMBER = "KEY_CENTER_NUMBER";
     public static final String KEY_CREATE_PHONE_NUMBER = "KEY_CREATE_PHONE_NUMBER";
+    public static final String KEY_CREATE_PHONE_NUMBER_FLAG = "KEY_CREATE_PHONE_NUMBER_FLAG";
 
     public static final String KEY_CHOOSE_CENTER_NUMBER = "KEY_CHOOSE_CENTER_NUMBER";
 

@@ -1,9 +1,12 @@
 package czc.wxphonenumberhelper.activity;
 
 
+import android.Manifest;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.blankj.utilcode.util.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +14,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import czc.wxphonenumberhelper.R;
-import czc.wxphonenumberhelper.controller.CreateNumberControllerImpl;
-import czc.wxphonenumberhelper.controller.PhoneController;
+import czc.wxphonenumberhelper.presenter.CreateNumberControllerImpl;
+import czc.wxphonenumberhelper.presenter.PhonePresenter;
 
 /**
  * 生成号码
@@ -20,7 +23,7 @@ import czc.wxphonenumberhelper.controller.PhoneController;
 public class CreateNumberActivity extends BaseActivity {
     private List<String> mCreNumList = new ArrayList<>();
     private ArrayAdapter<String> mListAdapter;
-    private PhoneController mController;
+    private PhonePresenter mController;
 
     @BindView(R.id.lv_phone_number)
     ListView mPhoneNumListView;
@@ -51,8 +54,26 @@ public class CreateNumberActivity extends BaseActivity {
     // 保存号码本地
     @OnClick(R.id.btn_save)
     void save() {
-        mBtnSave.setEnabled(false);
-        mController.save();
+        String[] strings = {Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_CONTACTS};
+        if (!PermissionUtils.isGranted(strings)) {
+            PermissionUtils
+                    .permission(strings)
+                    .callback(new PermissionUtils.SimpleCallback() {
+                        @Override
+                        public void onGranted() {
+                            mBtnSave.setEnabled(false);
+                            mController.save();
+                        }
+
+                        @Override
+                        public void onDenied() {
+                            toast("请授予权限，才能存储号码");
+                        }
+                    }).request();
+        } else {
+            mBtnSave.setEnabled(false);
+            mController.save();
+        }
     }
 
     public void notifyDataSetChange(List<String> mData) {

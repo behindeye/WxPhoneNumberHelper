@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.ui.SingleSelectDialogView;
+import czc.wxphonenumberhelper.util.ContactUtil;
 
 /**
  * 填写生成号码信息
@@ -31,6 +32,8 @@ public class NumberActivity extends BaseActivity {
     EditText mCenterNumEt;
     @BindView(R.id.et_create_num)
     EditText mCreatePhoneNumberEt;
+    @BindView(R.id.et_create_flag)
+    EditText mCreateFlagEt;
 
     @BindArray(R.array.city)
     String[] mCityArr;
@@ -95,6 +98,12 @@ public class NumberActivity extends BaseActivity {
 
     @OnClick(R.id.btn_createNum)
     void clickCreateNum() {
+        String area = mAreaTv.getText().toString().trim();
+        if (TextUtils.isEmpty(area)) {
+            toast("请选择地区");
+            return;
+        }
+
         String hd = mHdTV.getText().toString().trim();
         if (TextUtils.isEmpty(hd)) {
             toast("请选择号段");
@@ -115,11 +124,11 @@ public class NumberActivity extends BaseActivity {
             return;
         }
 
-        if (Integer.parseInt(num)<0){
+        if (Integer.parseInt(num) < 0) {
             num = "0";
         }
 
-        if (Integer.parseInt(num)>500){
+        if (Integer.parseInt(num) > 500) {
             toast("一次最多只能生成500个");
             return;
         }
@@ -129,6 +138,8 @@ public class NumberActivity extends BaseActivity {
         bundle.putString(Const.KEY_HD, hd);
         bundle.putString(Const.KEY_CENTER_NUMBER, centerNum);
         bundle.putInt(Const.KEY_CREATE_PHONE_NUMBER, Integer.parseInt(num));
+        String flag = mCreateFlagEt.getText().toString().trim().equals("") ? ContactUtil.SK : mCreateFlagEt.getText().toString().trim();
+        bundle.putString(Const.KEY_CREATE_PHONE_NUMBER_FLAG, flag);
         Intent intent = new Intent(this, CreateNumberActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -191,7 +202,15 @@ public class NumberActivity extends BaseActivity {
             toast("请选择号段");
             return;
         }
-        int index = Arrays.binarySearch(mCityArr, area);
+        int index = -1;
+        int i = 0;
+        for (String city : mCityArr) {
+            i++;
+            if (city.equals(area)) {
+                index = i;
+                break;
+            }
+        }
         if (index != -1 && index >= 0) {
             String cityPinYin = mCityPinYinArr[index];
             log(cityPinYin);
@@ -215,9 +234,9 @@ public class NumberActivity extends BaseActivity {
         }
     }
 
-    private int findIndex(String[] arr,String key){
+    private int findIndex(String[] arr, String key) {
         for (int i = 0; i < arr.length; i++) {
-            if(arr[i].equals(key)){
+            if (arr[i].equals(key)) {
                 return i;
             }
         }

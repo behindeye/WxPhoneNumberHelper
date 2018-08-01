@@ -7,7 +7,10 @@
     <string name="stop_add_people">停止加人</string>
     <string name="chose_center_number">选择区段号</string>
     <string name="create_number">*生成个数：</string>
+    <string name="create_flag">标记：</string>
     <string name="create_num_hint">默认生成20个</string>
+    <string name="create_flag_hint">生成号码标识</string>
+    <string name="create_flag_text">YJ_</string>
     <string name="save">保存到通讯录</string>
     <string name="delete_number">删除已生成号码</string>
     <string name="center_four_number">中间4位：</string>
@@ -45,6 +48,7 @@
     <string name="publish_group">立即发布群组</string>
     <string name="save_to_phone">保存图片到手机</string>
     <string name="publish">立即发布</string>
+    <string name="create_number_tips">*提示:生成的号码，会显示在微信的新的朋友——手机联系人里面</string>
 
     <string-array name="city">
         <item>北京</item>

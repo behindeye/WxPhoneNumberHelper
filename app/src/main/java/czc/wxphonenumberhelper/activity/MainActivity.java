@@ -20,12 +20,13 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
 import cn.bmob.v3.update.UpdateResponse;
 import cn.bmob.v3.update.UpdateStatus;
-import czc.wxphonenumberhelper.common.FuncItemFactory;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.adapter.FuncAdapter;
 import czc.wxphonenumberhelper.constant.Const;
-import czc.wxphonenumberhelper.controller.MyWindowManager;
+import czc.wxphonenumberhelper.factory.FuncItemFactory;
+import czc.wxphonenumberhelper.manager.FloatWindowManager;
 import czc.wxphonenumberhelper.model.UserManager;
+import czc.wxphonenumberhelper.presenter.MyWindowManager;
 import czc.wxphonenumberhelper.ui.DialogView;
 import czc.wxphonenumberhelper.ui.OnDialogClickListener;
 import czc.wxphonenumberhelper.util.AppUtil;
@@ -99,7 +100,7 @@ public class MainActivity extends BaseActivity {
                         toast("设置成功");
                         break;
                     case FuncItemFactory.FLOW_WINDOW:
-                        showFlowWindow();
+                        checkPermissonOrOpenWindow();
                         break;
                     case FuncItemFactory.VALIDATE:
                         redirect(SentenceActivity.class);
@@ -116,6 +117,20 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void checkPermissonOrOpenWindow() {
+        if (FloatWindowManager.getInstance().checkPermission(getApplicationContext())) {
+            if (!MyWindowManager.isWindowShowing()) {
+                try {
+                    MyWindowManager.createSmallWindow(getApplicationContext());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }else {
+            FloatWindowManager.getInstance().applyPermission(getApplicationContext());
+        }
     }
 
 
@@ -211,14 +226,6 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             });
-        }
-    }
-
-    private void showFlowWindow() {
-        if (!MyWindowManager.isWindowShowing()) {
-            MyWindowManager.createSmallWindow(getApplicationContext());
-        } else {
-            toast("已显示悬浮窗了");
         }
     }
 

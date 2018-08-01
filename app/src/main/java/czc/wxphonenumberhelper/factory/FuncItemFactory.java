@@ -1,4 +1,4 @@
-package czc.wxphonenumberhelper.common;
+package czc.wxphonenumberhelper.factory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -47,7 +47,6 @@ public class FuncItemFactory {
         List<FuncItem> list = new ArrayList<FuncItem>() {
             {
                 add(new FuncItem(CREAT_ENUMBER, "手机推荐好友", R.drawable.icon_contact, false));
-                add(new FuncItem(SHARE_GROUP, "发布群组信息，认识好友", R.drawable.icon_group, false));
                 add(new FuncItem(QUICK_CONTACTPEOPLE, "自动快速添加微信手机推荐好友", R.drawable.icon_auto, false));
                 add(new FuncItem(ADD_CONTACTPEOPLE, "自动添加微信手机推荐好友", R.drawable.icon_auto, false));
                 add(new FuncItem(ADD_NEARPEOPLE, "自动向微信附近的人打招呼", R.drawable.icon_near, false));
@@ -55,6 +54,7 @@ public class FuncItemFactory {
                 add(new FuncItem(FLOW_WINDOW, "显示悬浮窗", R.drawable.icon_flow_window, false));
                 add(new FuncItem(VALIDATE, "添加好友时输入的验证信息", R.drawable.icon_validate, false));
 //                add(new FuncItem(SOFT_VALIDATE, "激活软件使用", R.drawable.icon_validity, false));
+                add(new FuncItem(SHARE_GROUP, "发布群组信息，认识好友", R.drawable.icon_group, false));
                 add(new FuncItem(FEEDBACK, "有问题，及时反馈给我们", R.drawable.icon_feedback, false));
                 add(new FuncItem(HELP, "常见问题", R.drawable.icon_help, false));
             }

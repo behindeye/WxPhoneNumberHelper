@@ -14,16 +14,18 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import czc.wxphonenumberhelper.MyApplication;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.constant.Const;
+import czc.wxphonenumberhelper.manager.DBManager;
+import czc.wxphonenumberhelper.model.PhoneRecord;
+import czc.wxphonenumberhelper.model.PhoneRecordDao;
 import czc.wxphonenumberhelper.util.ContactUtil;
 import czc.wxphonenumberhelper.util.PreferenceHelper;
 import czc.wxphonenumberhelper.util.ScreenUtil;
@@ -34,8 +36,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-
-import static czc.wxphonenumberhelper.constant.Const.PREF_KEY_NUMBERS;
 
 /**
  * 生成记录
@@ -70,12 +70,11 @@ public class RecordActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        String numberJson = PreferenceHelper.getString(PREF_KEY_NUMBERS, "");
-        Gson gson = new Gson();
-        ArrayList<String> list = gson.fromJson(numberJson, new TypeToken<ArrayList<String>>() {
-        }.getType());
+        List<PhoneRecord> list = DBManager.getInstance(MyApplication.getAppContext()).getSession().getPhoneRecordDao().loadAll();
         if (list != null && list.size() > 0) {
-            mRecordNumList.addAll(list);
+            for (PhoneRecord record : list) {
+                mRecordNumList.add(record.getNumber());
+            }
         } else {
             mBtnDeleteAll.setVisibility(View.GONE);
         }
@@ -119,11 +118,13 @@ public class RecordActivity extends BaseActivity {
         Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
-                Iterator<String> iterator = mRecordNumList.iterator();
-                while (iterator.hasNext()) {
-                    ContactUtil.delete(RecordActivity.this, iterator.next());
-                    iterator.remove();
+                PhoneRecordDao phoneRecordDao = DBManager.getInstance(MyApplication.getAppContext()).getSession().getPhoneRecordDao();
+                List<PhoneRecord> recordList = phoneRecordDao.loadAll();
+                for (PhoneRecord record : recordList) {
+                    ContactUtil.delete(RecordActivity.this, record.getName());
                 }
+                phoneRecordDao.deleteAll();
+                mRecordNumList.clear();
                 subscriber.onNext(true);
                 subscriber.onCompleted();
             }
@@ -151,12 +152,6 @@ public class RecordActivity extends BaseActivity {
                     }
                 });
     }
-
-//    @OnItemLongClick(R.id.lv_phone_number)
-//    boolean onItemLongClick(int position) {
-//        deleteNumber(mRecordNumList.get(position));
-//        return false;
-//    }
 
     public boolean deleteNumber(String number) {
         boolean isSuccess = ContactUtil.delete(this, number);

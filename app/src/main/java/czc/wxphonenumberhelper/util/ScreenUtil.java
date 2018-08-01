@@ -3,8 +3,6 @@
  */
 package czc.wxphonenumberhelper.util;
 
-import android.content.Context;
-
 import czc.wxphonenumberhelper.MyApplication;
 
 /**
@@ -12,22 +10,22 @@ import czc.wxphonenumberhelper.MyApplication;
 public class ScreenUtil {
 
 	public static int dip2px(float dpValue) {
-		float scale = MyApplication.getApplication().getResources().getDisplayMetrics().density;
+		float scale = MyApplication.getAppContext().getResources().getDisplayMetrics().density;
 		return (int) (dpValue * scale + 0.5f);
 	}
 
 	public static int px2dip(float pxValue) {
-		float scale = MyApplication.getApplication().getResources().getDisplayMetrics().density;
+		float scale = MyApplication.getAppContext().getResources().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
 	}
 
 	public static float dip2pxf(int dpValue) {
-		float scale = MyApplication.getApplication().getResources().getDisplayMetrics().density;
+		float scale = MyApplication.getAppContext().getResources().getDisplayMetrics().density;
 		return dpValue * scale + 0.5f;
 	}
 
 	public static float dip2pxf(float dpValue) {
-		float scale = MyApplication.getApplication().getResources().getDisplayMetrics().density;
+		float scale = MyApplication.getAppContext().getResources().getDisplayMetrics().density;
 		return dpValue * scale + 0.5f;
 	}
 	
@@ -40,7 +38,7 @@ public class ScreenUtil {
 	 * @return
 	 */
 	public static int px2sp(float pxValue) {
-		float fontScale = MyApplication.getApplication().getResources().getDisplayMetrics().scaledDensity;
+		float fontScale = MyApplication.getAppContext().getResources().getDisplayMetrics().scaledDensity;
 		return (int) (pxValue / fontScale + 0.5f);
 	}
 
@@ -53,12 +51,12 @@ public class ScreenUtil {
 	 * @return
 	 */
 	public static int sp2px(float spValue) {
-		float fontScale = MyApplication.getApplication().getResources().getDisplayMetrics().scaledDensity;
+		float fontScale = MyApplication.getAppContext().getResources().getDisplayMetrics().scaledDensity;
 		return (int) (spValue * fontScale + 0.5f);
 	}
 
 	public static float sp2pxf(float spValue) {
-		float fontScale = MyApplication.getApplication().getResources().getDisplayMetrics().scaledDensity;
+		float fontScale = MyApplication.getAppContext().getResources().getDisplayMetrics().scaledDensity;
 		return spValue * fontScale + 0.5f;
 	}
 }

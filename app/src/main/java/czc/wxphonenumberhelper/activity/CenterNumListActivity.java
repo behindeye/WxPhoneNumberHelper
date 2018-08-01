@@ -13,13 +13,13 @@ import butterknife.BindView;
 import butterknife.OnItemClick;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.constant.Const;
-import czc.wxphonenumberhelper.controller.BaseController;
-import czc.wxphonenumberhelper.controller.CenterNumControllerImpl;
+import czc.wxphonenumberhelper.presenter.CenterNumPresenter;
+import czc.wxphonenumberhelper.view.ICenterNumView;
 
 /**
  * 选择中间4位区段号
  */
-public class CenterNumListActivity extends BaseActivity {
+public class CenterNumListActivity extends BaseActivity implements ICenterNumView {
 
     @BindView(R.id.lv_center_number)
     ListView mCenterNumListView;
@@ -29,7 +29,7 @@ public class CenterNumListActivity extends BaseActivity {
 
     private ArrayAdapter<String> mListAdapter;
     private ProgressDialog mDialog;
-    private BaseController mController;
+    private CenterNumPresenter mController;
     private List<String> mPhoneList = new ArrayList<>();
 
     @Override
@@ -47,38 +47,43 @@ public class CenterNumListActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        mController = new CenterNumControllerImpl(this);
-        mController.initData();
+        mController = new CenterNumPresenter(this);
+        mController.getDateFromNet(getIntent().getExtras());
         mListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mPhoneList);
         mCenterNumListView.setAdapter(mListAdapter);
         mCenterNumListView.setEmptyView(mEmptyView);
     }
 
-    public void begin(){
+    @Override
+    public void begin() {
         mDialog.show();
     }
 
-    public void end(){
+    @Override
+    public void end() {
         mDialog.dismiss();
     }
 
-    public void success(List<String> data){
-        if (data!=null && data.size()>0){
+    @Override
+    public void success(List<String> data) {
+        toast("共"+data.size()+"条记录");
+        if (data != null && data.size() > 0) {
             mPhoneList.addAll(data);
         }
         mListAdapter.notifyDataSetChanged();
     }
 
-    public void error(){
+    @Override
+    public void error() {
         mDialog.dismiss();
         toast("哎呀，请求失败了，请重试~");
     }
 
     @OnItemClick(R.id.lv_center_number)
-    void onItemClick(int position){
+    void onItemClick(int position) {
         Intent intent = new Intent();
-        intent.putExtra(Const.KEY_CHOOSE_CENTER_NUMBER,mPhoneList.get(position));
-        setResult(RESULT_OK,intent);
+        intent.putExtra(Const.KEY_CHOOSE_CENTER_NUMBER, mPhoneList.get(position));
+        setResult(RESULT_OK, intent);
         back();
     }
 }

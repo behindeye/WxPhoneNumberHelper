@@ -1,10 +1,15 @@
 package czc.wxphonenumberhelper.util;
 
+import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
+import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
+
+import java.lang.reflect.Method;
 
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.service.AutoAddPeopleService;
@@ -76,5 +81,38 @@ public class AppUtil {
 
     public static boolean isNewUser(){
         return PreferenceHelper.getBoolean(Const.PREF_IS_NEW_USER, true);
+    }
+
+    /**
+     * 判断悬浮窗口权限是否打开
+     */
+    public static boolean hasFloatWindowAccessPermission(Context context) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            return Settings.canDrawOverlays(context);
+        }
+        try {
+            Object object = context.getSystemService(Context.APP_OPS_SERVICE);
+            if (object == null) {
+                return false;
+            }
+            Class localClass = object.getClass();
+            Class[] arrayOfClass = new Class[3];
+            arrayOfClass[0] = Integer.TYPE;
+            arrayOfClass[1] = Integer.TYPE;
+            arrayOfClass[2] = String.class;
+            Method method = localClass.getMethod("checkOp", arrayOfClass);
+            if (method == null) {
+                return false;
+            }
+            Object[] arrayOfObject1 = new Object[3];
+            arrayOfObject1[0] = Integer.valueOf(24);
+            arrayOfObject1[1] = Integer.valueOf(Binder.getCallingUid());
+            arrayOfObject1[2] = context.getPackageName();
+            int m = ((Integer) method.invoke(object, arrayOfObject1)).intValue();
+            return m == AppOpsManager.MODE_ALLOWED;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
