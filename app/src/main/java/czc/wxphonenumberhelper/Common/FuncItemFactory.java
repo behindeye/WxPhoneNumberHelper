@@ -54,7 +54,7 @@ public class FuncItemFactory {
                 add(new FuncItem(STOP_ADD_PEOPLE, "停止所有的加人操作", R.drawable.icon_stop, false));
                 add(new FuncItem(FLOW_WINDOW, "显示悬浮窗", R.drawable.icon_flow_window, false));
                 add(new FuncItem(VALIDATE, "添加好友时输入的验证信息", R.drawable.icon_validate, false));
-                add(new FuncItem(SOFT_VALIDATE, "激活软件使用", R.drawable.icon_validity, false));
+//                add(new FuncItem(SOFT_VALIDATE, "激活软件使用", R.drawable.icon_validity, false));
                 add(new FuncItem(FEEDBACK, "有问题，及时反馈给我们", R.drawable.icon_feedback, false));
                 add(new FuncItem(HELP, "常见问题", R.drawable.icon_help, false));
             }
