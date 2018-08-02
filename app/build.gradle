@@ -66,6 +66,9 @@ dependencies {
     // android util
     compile 'com.blankj:utilcode:1.17.3'
 
+    // qmui
+    compile 'com.qmuiteam:qmui:1.1.3'
+
     debugCompile ('com.github.whataa:pandora:v1.0.1') {
         exclude group: 'com.squareup.okhttp3'
         exclude group: 'com.squareup.okio'

@@ -1,6 +1,5 @@
 package czc.wxphonenumberhelper.presenter;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +10,13 @@ import java.util.List;
 import java.util.Random;
 
 import czc.wxphonenumberhelper.MyApplication;
-import czc.wxphonenumberhelper.activity.CreateNumberActivity;
 import czc.wxphonenumberhelper.activity.MainActivity;
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.manager.DBManager;
 import czc.wxphonenumberhelper.model.PhoneRecord;
 import czc.wxphonenumberhelper.util.ContactUtil;
 import czc.wxphonenumberhelper.util.ToastUtil;
+import czc.wxphonenumberhelper.view.CreatePhoneView;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,9 +29,9 @@ import rx.schedulers.Schedulers;
  * Created by czc on 2017/6/25.
  */
 
-public class CreateNumberControllerImpl implements PhonePresenter {
-    private ProgressDialog mDialog;
-    private CreateNumberActivity mActivity;
+public class CreateNumberPresenter implements PhonePresenter {
+
+    private CreatePhoneView mView;
     private List<String> mCreNumList = new ArrayList<>();
 
     private String mQhNumber;
@@ -40,16 +39,11 @@ public class CreateNumberControllerImpl implements PhonePresenter {
     private String mNumberFlag;
     private int mNumber;
 
-    public CreateNumberControllerImpl(Activity act) {
-        mActivity = (CreateNumberActivity) act;
-        mDialog = new ProgressDialog(mActivity);
-        mDialog.setMessage("正在生成中，请耐心等待···");
-        mDialog.setCanceledOnTouchOutside(false);
+    public CreateNumberPresenter(CreatePhoneView view) {
+        mView = view;
     }
 
-    @Override
-    public void initData() {
-        Bundle bundle = mActivity.getIntent().getExtras();
+    public void initData(Bundle bundle) {
         if (bundle != null) {
             mQhNumber = bundle.getString(Const.KEY_HD);
             mNumberFlag = bundle.getString(Const.KEY_CREATE_PHONE_NUMBER_FLAG);
@@ -62,7 +56,7 @@ public class CreateNumberControllerImpl implements PhonePresenter {
     public void createNumber() {
         mCreNumList.clear();
         createPhoneNumber(mNumber);
-        notifyDataSetChange();
+		mView.showResult(mCreNumList);
     }
 
     @Override
@@ -79,7 +73,7 @@ public class CreateNumberControllerImpl implements PhonePresenter {
                     record.setName(name);
                     record.setNumber(number);
                     recordList.add(record);
-                    ContactUtil.insert(mActivity, name, number);
+                    ContactUtil.insert(MyApplication.getAppContext(), name, number);
                 }
                 DBManager.getInstance(MyApplication.getAppContext())
                         .getSession()
@@ -92,30 +86,24 @@ public class CreateNumberControllerImpl implements PhonePresenter {
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        mDialog.show();
+                        mView.showProgressDialog();
                     }
                 })
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        mDialog.dismiss();
+						mView.hideProgressDialog();
                     }
                 }).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
-                        ToastUtil.showToast(mActivity, "保存成功");
-                        Intent intent = new Intent(mActivity, MainActivity.class);
-                        mActivity.startActivity(intent);
+                     	mView.success();
                     }
                 });
 
     }
 
-    @Override
-    public void notifyDataSetChange() {
-        mActivity.notifyDataSetChange(mCreNumList);
-    }
 
     private void createPhoneNumber(int number) {
         for (int i = 0; i < number; i++) {

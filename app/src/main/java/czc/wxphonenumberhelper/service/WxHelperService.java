@@ -7,10 +7,9 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
-import czc.wxphonenumberhelper.presenter.MyWindowManager;
+import czc.wxphonenumberhelper.manager.FloatWindowManager;
 import rx.functions.Action1;
 
 public class WxHelperService extends Service {
@@ -25,9 +24,9 @@ public class WxHelperService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		if (!MyWindowManager.isWindowShowing()) {
+		if (!FloatWindowManager.isWindowShowing()) {
 			try {
-				MyWindowManager.createSmallWindow(getApplicationContext());
+				FloatWindowManager.createSmallWindow(getApplicationContext());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

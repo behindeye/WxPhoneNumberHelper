@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 
 import czc.wxphonenumberhelper.R;
-import czc.wxphonenumberhelper.presenter.MyWindowManager;
+import czc.wxphonenumberhelper.manager.FloatWindowManager;
 
 /**
  * Created by czc on 2017/6/30.
@@ -128,8 +128,8 @@ public class FloatWindowSmallView extends LinearLayout {
      */
     private void openBigWindow() {
         try {
-            MyWindowManager.createBigWindow(getContext());
-            MyWindowManager.removeSmallWindow(getContext());
+            FloatWindowManager.createBigWindow(getContext());
+            FloatWindowManager.removeSmallWindow(getContext());
         } catch (Exception e) {
             e.printStackTrace();
         }

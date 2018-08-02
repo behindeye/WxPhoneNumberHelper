@@ -15,8 +15,9 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import czc.wxphonenumberhelper.base.BasePresenter;
 import czc.wxphonenumberhelper.constant.Const;
-import czc.wxphonenumberhelper.view.ICenterNumView;
+import czc.wxphonenumberhelper.view.Center4NumView;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -26,15 +27,10 @@ import okhttp3.Request;
 
 public class CenterNumPresenter implements BasePresenter {
     private List<String> mPhoneList = new ArrayList<>();
-    private ICenterNumView mView;
+    private Center4NumView mView;
 
-    public CenterNumPresenter(ICenterNumView view) {
+    public CenterNumPresenter(Center4NumView view) {
         mView = view;
-    }
-
-    @Override
-    public void initData() {
-
     }
 
     public void getDateFromNet(Bundle bundle){

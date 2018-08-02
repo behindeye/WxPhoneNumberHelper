@@ -1,4 +1,4 @@
-package czc.wxphonenumberhelper.activity;
+package czc.wxphonenumberhelper.base;
 
 import android.content.Context;
 import android.content.Intent;

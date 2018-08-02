@@ -24,6 +24,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.adapter.GroupAdapter;
+import czc.wxphonenumberhelper.base.BaseFragment;
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.model.GroupInfo;
 

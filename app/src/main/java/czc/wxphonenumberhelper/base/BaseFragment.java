@@ -1,4 +1,4 @@
-package czc.wxphonenumberhelper.fragment;
+package czc.wxphonenumberhelper.base;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

@@ -22,11 +22,11 @@ import cn.bmob.v3.update.UpdateResponse;
 import cn.bmob.v3.update.UpdateStatus;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.adapter.FuncAdapter;
+import czc.wxphonenumberhelper.base.BaseActivity;
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.factory.FuncItemFactory;
-import czc.wxphonenumberhelper.manager.FloatWindowManager;
+import czc.wxphonenumberhelper.util.FloatWindowUtil;
 import czc.wxphonenumberhelper.model.UserManager;
-import czc.wxphonenumberhelper.presenter.MyWindowManager;
 import czc.wxphonenumberhelper.service.WxHelperService;
 import czc.wxphonenumberhelper.ui.DialogView;
 import czc.wxphonenumberhelper.ui.OnDialogClickListener;
@@ -121,10 +121,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkPermissonOrOpenWindow() {
-        if (FloatWindowManager.getInstance().checkPermission(getApplicationContext())) {
+        if (FloatWindowUtil.getInstance().checkPermission(getApplicationContext())) {
       		startService(new Intent(this, WxHelperService.class));
         }else {
-            FloatWindowManager.getInstance().applyPermission(getApplicationContext());
+            FloatWindowUtil.getInstance().applyPermission(getApplicationContext());
         }
     }
 

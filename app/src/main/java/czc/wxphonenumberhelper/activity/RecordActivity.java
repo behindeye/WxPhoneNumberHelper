@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import czc.wxphonenumberhelper.MyApplication;
 import czc.wxphonenumberhelper.R;
+import czc.wxphonenumberhelper.base.BaseActivity;
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.manager.DBManager;
 import czc.wxphonenumberhelper.model.PhoneRecord;

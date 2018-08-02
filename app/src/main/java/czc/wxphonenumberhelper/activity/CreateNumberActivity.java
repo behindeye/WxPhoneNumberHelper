@@ -2,6 +2,8 @@ package czc.wxphonenumberhelper.activity;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -14,16 +16,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import czc.wxphonenumberhelper.R;
-import czc.wxphonenumberhelper.presenter.CreateNumberControllerImpl;
+import czc.wxphonenumberhelper.base.BaseActivity;
+import czc.wxphonenumberhelper.presenter.CreateNumberPresenter;
 import czc.wxphonenumberhelper.presenter.PhonePresenter;
+import czc.wxphonenumberhelper.util.ToastUtil;
+import czc.wxphonenumberhelper.view.CreatePhoneView;
 
 /**
  * 生成号码
  */
-public class CreateNumberActivity extends BaseActivity {
+public class CreateNumberActivity extends BaseActivity implements CreatePhoneView{
     private List<String> mCreNumList = new ArrayList<>();
     private ArrayAdapter<String> mListAdapter;
-    private PhonePresenter mController;
+    private CreateNumberPresenter mController;
+	private ProgressDialog mDialog;
 
     @BindView(R.id.lv_phone_number)
     ListView mPhoneNumListView;
@@ -39,14 +45,18 @@ public class CreateNumberActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+		mDialog = new ProgressDialog(this);
+		mDialog.setMessage("正在生成中，请耐心等待···");
+		mDialog.setCanceledOnTouchOutside(false);
+
         mListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mCreNumList);
         mPhoneNumListView.setAdapter(mListAdapter);
     }
 
     @Override
     protected void initData() {
-        mController = new CreateNumberControllerImpl(this);
-        mController.initData();
+        mController = new CreateNumberPresenter(this);
+        mController.initData(getIntent().getExtras());
         mController.createNumber();
     }
 
@@ -76,10 +86,31 @@ public class CreateNumberActivity extends BaseActivity {
         }
     }
 
-    public void notifyDataSetChange(List<String> mData) {
-        mCreNumList.clear();
-        mCreNumList.addAll(mData);
-        mListAdapter.notifyDataSetChanged();
-    }
+	@Override
+	public void showProgressDialog() {
+		mDialog.show();
+	}
 
+	@Override
+	public void hideProgressDialog() {
+		if (mDialog.isShowing()) {
+			mDialog.hide();
+		}
+	}
+
+	@Override
+	public void showResult(List<String> data) {
+		mCreNumList.clear();
+		mCreNumList.addAll(data);
+		mListAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void success() {
+    	hideProgressDialog();
+		ToastUtil.showToast(this, "保存成功");
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
+	}
 }

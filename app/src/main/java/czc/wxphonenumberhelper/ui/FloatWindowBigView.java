@@ -12,7 +12,7 @@ import org.greenrobot.eventbus.EventBus;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.activity.MainActivity;
 import czc.wxphonenumberhelper.constant.Const;
-import czc.wxphonenumberhelper.presenter.MyWindowManager;
+import czc.wxphonenumberhelper.manager.FloatWindowManager;
 import czc.wxphonenumberhelper.util.PreferenceHelper;
 
 /**
@@ -43,8 +43,8 @@ public class FloatWindowBigView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 // 点击返回的时候，移除大悬浮窗，创建小悬浮窗
-                MyWindowManager.removeBigWindow(context);
-                MyWindowManager.createSmallWindow(context);
+                FloatWindowManager.removeBigWindow(context);
+                FloatWindowManager.createSmallWindow(context);
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -54,8 +54,8 @@ public class FloatWindowBigView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 PreferenceHelper.putBoolean(Const.PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG, false);
-                MyWindowManager.removeBigWindow(context);
-                MyWindowManager.createSmallWindow(context);
+                FloatWindowManager.removeBigWindow(context);
+                FloatWindowManager.createSmallWindow(context);
             }
         });
 
@@ -64,8 +64,8 @@ public class FloatWindowBigView extends LinearLayout {
             public void onClick(View v) {
                 PreferenceHelper.putBoolean(Const.PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG, true);
                 EventBus.getDefault().post(new Boolean(true));
-                MyWindowManager.removeBigWindow(context);
-                MyWindowManager.createSmallWindow(context);
+                FloatWindowManager.removeBigWindow(context);
+                FloatWindowManager.createSmallWindow(context);
             }
         });
 
@@ -73,8 +73,8 @@ public class FloatWindowBigView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 // 点击关闭悬浮窗的时候，移除所有悬浮窗，并停止Service
-                MyWindowManager.removeBigWindow(context);
-                MyWindowManager.removeSmallWindow(context);
+                FloatWindowManager.removeBigWindow(context);
+                FloatWindowManager.removeSmallWindow(context);
             }
         });
 
@@ -82,8 +82,8 @@ public class FloatWindowBigView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 // 点击返回的时候，移除大悬浮窗，创建小悬浮窗
-                MyWindowManager.removeBigWindow(context);
-                MyWindowManager.createSmallWindow(context);
+                FloatWindowManager.removeBigWindow(context);
+                FloatWindowManager.createSmallWindow(context);
             }
         });
     }

@@ -13,7 +13,7 @@ import android.util.Log;
 
 import java.lang.reflect.Method;
 
-import czc.wxphonenumberhelper.manager.FloatWindowManager;
+import czc.wxphonenumberhelper.util.FloatWindowUtil;
 
 public class MeizuUtils {
     private static final String TAG = "MeizuUtils";
@@ -43,7 +43,7 @@ public class MeizuUtils {
             try {
                 Log.e(TAG, "获取悬浮窗权限, 打开AppSecActivity失败, " + Log.getStackTraceString(e));
                 // 最新的魅族flyme 6.2.5 用上述方法获取权限失败, 不过又可以用下述方法获取权限了
-                FloatWindowManager.commonROMPermissionApplyInternal(context);
+                FloatWindowUtil.commonROMPermissionApplyInternal(context);
             } catch (Exception eFinal) {
                 Log.e(TAG, "获取悬浮窗权限失败, 通用获取方法失败, " + Log.getStackTraceString(eFinal));
             }

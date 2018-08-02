@@ -12,7 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.constant.Const;
-import czc.wxphonenumberhelper.fragment.BaseFragment;
+import czc.wxphonenumberhelper.base.BaseFragment;
 import czc.wxphonenumberhelper.fragment.GroupListFragment;
 import czc.wxphonenumberhelper.fragment.GroupPageFragment;
 import czc.wxphonenumberhelper.fragment.PublishGroupFragment;

@@ -20,6 +20,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.adapter.GroupPagerAdapter;
+import czc.wxphonenumberhelper.base.BaseFragment;
 import czc.wxphonenumberhelper.model.GroupInfo;
 import czc.wxphonenumberhelper.util.ToolsUtil;
 

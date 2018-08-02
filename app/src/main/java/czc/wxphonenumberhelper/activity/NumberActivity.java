@@ -16,6 +16,7 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.OnClick;
 import czc.wxphonenumberhelper.R;
+import czc.wxphonenumberhelper.base.BaseActivity;
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.ui.SingleSelectDialogView;
 import czc.wxphonenumberhelper.util.ContactUtil;

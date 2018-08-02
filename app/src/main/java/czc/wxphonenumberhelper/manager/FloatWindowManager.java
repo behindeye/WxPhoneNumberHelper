@@ -1,279 +1,166 @@
-/*
- * Copyright (C) 2016 Facishare Technology Co., Ltd. All Rights Reserved.
- */
 package czc.wxphonenumberhelper.manager;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.ActivityManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
+import android.graphics.PixelFormat;
 import android.os.Build;
-import android.provider.Settings;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
-import czc.wxphonenumberhelper.util.rom.HuaweiUtils;
-import czc.wxphonenumberhelper.util.rom.MeizuUtils;
-import czc.wxphonenumberhelper.util.rom.MiuiUtils;
-import czc.wxphonenumberhelper.util.rom.OppoUtils;
-import czc.wxphonenumberhelper.util.rom.QikuUtils;
-import czc.wxphonenumberhelper.util.rom.RomUtils;
+import czc.wxphonenumberhelper.ui.FloatWindowBigView;
+import czc.wxphonenumberhelper.ui.FloatWindowSmallView;
 
 /**
- * Description:
- *
- * @author zhaozp
- * @since 2016-10-17
+ * Created by czc on 2017/6/30.
  */
 
 public class FloatWindowManager {
-    private static final String TAG = "FloatWindowManager";
+    /**
+     * 小悬浮窗View的实例
+     */
+    private static FloatWindowSmallView smallWindow;
 
-    private static volatile FloatWindowManager instance;
+    /**
+     * 大悬浮窗View的实例
+     */
+    private static FloatWindowBigView bigWindow;
 
-    private boolean isWindowDismiss = true;
-    private WindowManager windowManager = null;
-    private WindowManager.LayoutParams mParams = null;
-    private Dialog dialog;
+    /**
+     * 小悬浮窗View的参数
+     */
+    private static LayoutParams smallWindowParams;
 
-    public static FloatWindowManager getInstance() {
-        if (instance == null) {
-            synchronized (FloatWindowManager.class) {
-                if (instance == null) {
-                    instance = new FloatWindowManager();
-                }
+    /**
+     * 大悬浮窗View的参数
+     */
+    private static LayoutParams bigWindowParams;
+
+    /**
+     * 用于控制在屏幕上添加或移除悬浮窗
+     */
+    private static WindowManager mWindowManager;
+
+    /**
+     * 用于获取手机可用内存
+     */
+    private static ActivityManager mActivityManager;
+
+    /**
+     * 创建一个小悬浮窗。初始位置为屏幕的右部中间位置。
+     *
+     * @param context
+     *            必须为应用程序的Context.
+     */
+    public static void createSmallWindow(Context context) {
+        WindowManager windowManager = getWindowManager(context);
+        int screenWidth = windowManager.getDefaultDisplay().getWidth();
+        int screenHeight = windowManager.getDefaultDisplay().getHeight();
+        if (smallWindow == null) {
+            smallWindow = new FloatWindowSmallView(context);
+            if (smallWindowParams == null) {
+                smallWindowParams = new LayoutParams();
+				if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+					smallWindowParams.type = LayoutParams.TYPE_SYSTEM_ALERT;
+				}else {
+					smallWindowParams.type = LayoutParams.TYPE_TOAST;
+				}
+                smallWindowParams.format = PixelFormat.RGBA_8888;
+                smallWindowParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | LayoutParams.FLAG_NOT_FOCUSABLE;
+                smallWindowParams.gravity = Gravity.LEFT | Gravity.TOP;
+                smallWindowParams.width = FloatWindowSmallView.viewWidth;
+                smallWindowParams.height = FloatWindowSmallView.viewHeight;
+                smallWindowParams.x = screenWidth;
+                smallWindowParams.y = screenHeight / 2;
             }
+            smallWindow.setParams(smallWindowParams);
+            windowManager.addView(smallWindow, smallWindowParams);
         }
-        return instance;
-    }
-
-    public void applyOrShowFloatWindow(Context context) {
-        if (checkPermission(context)) {
-
-        } else {
-            applyPermission(context);
-        }
-    }
-
-    public boolean checkPermission(Context context) {
-        //6.0 版本之后由于 google 增加了对悬浮窗权限的管理，所以方式就统一了
-        if (Build.VERSION.SDK_INT < 23) {
-            if (RomUtils.checkIsMiuiRom()) {
-                return miuiPermissionCheck(context);
-            } else if (RomUtils.checkIsMeizuRom()) {
-                return meizuPermissionCheck(context);
-            } else if (RomUtils.checkIsHuaweiRom()) {
-                return huaweiPermissionCheck(context);
-            } else if (RomUtils.checkIs360Rom()) {
-                return qikuPermissionCheck(context);
-            } else if (RomUtils.checkIsOppoRom()) {
-                return oppoROMPermissionCheck(context);
-            }
-        }
-        return commonROMPermissionCheck(context);
-    }
-
-    private boolean huaweiPermissionCheck(Context context) {
-        return HuaweiUtils.checkFloatWindowPermission(context);
-    }
-
-    private boolean miuiPermissionCheck(Context context) {
-        return MiuiUtils.checkFloatWindowPermission(context);
-    }
-
-    private boolean meizuPermissionCheck(Context context) {
-        return MeizuUtils.checkFloatWindowPermission(context);
-    }
-
-    private boolean qikuPermissionCheck(Context context) {
-        return QikuUtils.checkFloatWindowPermission(context);
-    }
-
-    private boolean oppoROMPermissionCheck(Context context) {
-        return OppoUtils.checkFloatWindowPermission(context);
-    }
-
-    private boolean commonROMPermissionCheck(Context context) {
-        //最新发现魅族6.0的系统这种方式不好用，天杀的，只有你是奇葩，没办法，单独适配一下
-        if (RomUtils.checkIsMeizuRom()) {
-            return meizuPermissionCheck(context);
-        } else {
-            Boolean result = true;
-            if (Build.VERSION.SDK_INT >= 23) {
-                try {
-                    Class clazz = Settings.class;
-                    Method canDrawOverlays = clazz.getDeclaredMethod("canDrawOverlays", Context.class);
-                    result = (Boolean) canDrawOverlays.invoke(null, context);
-                } catch (Exception e) {
-                    Log.e(TAG, Log.getStackTraceString(e));
-                }
-            }
-            return result;
-        }
-    }
-
-    public void applyPermission(Context context) {
-        if (Build.VERSION.SDK_INT < 23) {
-            if (RomUtils.checkIsMiuiRom()) {
-                miuiROMPermissionApply(context);
-            } else if (RomUtils.checkIsMeizuRom()) {
-                meizuROMPermissionApply(context);
-            } else if (RomUtils.checkIsHuaweiRom()) {
-                huaweiROMPermissionApply(context);
-            } else if (RomUtils.checkIs360Rom()) {
-                ROM360PermissionApply(context);
-            } else if (RomUtils.checkIsOppoRom()) {
-                oppoROMPermissionApply(context);
-            }
-        } else {
-            commonROMPermissionApply(context);
-        }
-    }
-
-    private void ROM360PermissionApply(final Context context) {
-        showConfirmDialog(context, new OnConfirmResult() {
-            @Override
-            public void confirmResult(boolean confirm) {
-                if (confirm) {
-                    QikuUtils.applyPermission(context);
-                } else {
-                    Log.e(TAG, "ROM:360, user manually refuse OVERLAY_PERMISSION");
-                }
-            }
-        });
-    }
-
-    private void huaweiROMPermissionApply(final Context context) {
-        showConfirmDialog(context, new OnConfirmResult() {
-            @Override
-            public void confirmResult(boolean confirm) {
-                if (confirm) {
-                    HuaweiUtils.applyPermission(context);
-                } else {
-                    Log.e(TAG, "ROM:huawei, user manually refuse OVERLAY_PERMISSION");
-                }
-            }
-        });
-    }
-
-    private void meizuROMPermissionApply(final Context context) {
-        showConfirmDialog(context, new OnConfirmResult() {
-            @Override
-            public void confirmResult(boolean confirm) {
-                if (confirm) {
-                    MeizuUtils.applyPermission(context);
-                } else {
-                    Log.e(TAG, "ROM:meizu, user manually refuse OVERLAY_PERMISSION");
-                }
-            }
-        });
-    }
-
-    private void miuiROMPermissionApply(final Context context) {
-        showConfirmDialog(context, new OnConfirmResult() {
-            @Override
-            public void confirmResult(boolean confirm) {
-                if (confirm) {
-                    MiuiUtils.applyMiuiPermission(context);
-                } else {
-                    Log.e(TAG, "ROM:miui, user manually refuse OVERLAY_PERMISSION");
-                }
-            }
-        });
-    }
-
-    private void oppoROMPermissionApply(final Context context) {
-        showConfirmDialog(context, new OnConfirmResult() {
-            @Override
-            public void confirmResult(boolean confirm) {
-                if (confirm) {
-                    OppoUtils.applyOppoPermission(context);
-                } else {
-                    Log.e(TAG, "ROM:miui, user manually refuse OVERLAY_PERMISSION");
-                }
-            }
-        });
     }
 
     /**
-     * 通用 rom 权限申请
+     * 创建一个大悬浮窗。位置为屏幕正中间。
+     *
+     * @param context
+     *            必须为应用程序的Context.
      */
-    private void commonROMPermissionApply(final Context context) {
-        //这里也一样，魅族系统需要单独适配
-        if (RomUtils.checkIsMeizuRom()) {
-            meizuROMPermissionApply(context);
-        } else {
-            if (Build.VERSION.SDK_INT >= 23) {
-                showConfirmDialog(context, new OnConfirmResult() {
-                    @Override
-                    public void confirmResult(boolean confirm) {
-                        if (confirm) {
-                            try {
-                                commonROMPermissionApplyInternal(context);
-                            } catch (Exception e) {
-                                Log.e(TAG, Log.getStackTraceString(e));
-                            }
-                        } else {
-                            Log.d(TAG, "user manually refuse OVERLAY_PERMISSION");
-                            //需要做统计效果
-                        }
-                    }
-                });
+    public static void createBigWindow(Context context) {
+        WindowManager windowManager = getWindowManager(context);
+        int screenWidth = windowManager.getDefaultDisplay().getWidth();
+        int screenHeight = windowManager.getDefaultDisplay().getHeight();
+        if (bigWindow == null) {
+            bigWindow = new FloatWindowBigView(context);
+            if (bigWindowParams == null) {
+                bigWindowParams = new LayoutParams();
+                bigWindowParams.x = screenWidth / 2 - FloatWindowBigView.viewWidth / 2;
+                bigWindowParams.y = screenHeight / 2 - FloatWindowBigView.viewHeight / 2;
+				if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+					bigWindowParams.type = LayoutParams.TYPE_SYSTEM_ALERT;
+				}else {
+					bigWindowParams.type = LayoutParams.TYPE_TOAST;
+				}
+				bigWindowParams.format = PixelFormat.RGBA_8888;
+                bigWindowParams.gravity = Gravity.LEFT | Gravity.TOP;
+                bigWindowParams.width = FloatWindowBigView.viewWidth;
+                bigWindowParams.height = FloatWindowBigView.viewHeight;
             }
+            windowManager.addView(bigWindow, bigWindowParams);
         }
     }
 
-    public static void commonROMPermissionApplyInternal(Context context) throws NoSuchFieldException, IllegalAccessException {
-        Class clazz = Settings.class;
-        Field field = clazz.getDeclaredField("ACTION_MANAGE_OVERLAY_PERMISSION");
-
-        Intent intent = new Intent(field.get(null).toString());
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse("package:" + context.getPackageName()));
-        context.startActivity(intent);
+    /**
+     * 是否有悬浮窗(包括小悬浮窗和大悬浮窗)显示在屏幕上。
+     *
+     * @return 有悬浮窗显示在桌面上返回true，没有的话返回false。
+     */
+    public static boolean isWindowShowing() {
+        return smallWindow != null || bigWindow != null;
     }
 
-    private void showConfirmDialog(Context context, OnConfirmResult result) {
-        showConfirmDialog(context, "您的手机没有授予悬浮窗权限，请开启后再试", result);
-    }
-
-    private void showConfirmDialog(Context context, String message, final OnConfirmResult result) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+    /**
+     * 将小悬浮窗从屏幕上移除。
+     *
+     * @param context
+     *            必须为应用程序的Context.
+     */
+    public static void removeSmallWindow(Context context) {
+        if (smallWindow != null) {
+            WindowManager windowManager = getWindowManager(context);
+            windowManager.removeView(smallWindow);
+            smallWindow = null;
         }
-
-        dialog = new AlertDialog.Builder(context).setCancelable(true).setTitle("")
-                .setMessage(message)
-                .setPositiveButton("现在去开启",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                result.confirmResult(true);
-                                dialog.dismiss();
-                            }
-                        }).setNegativeButton("暂不开启",
-                        new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                result.confirmResult(false);
-                                dialog.dismiss();
-                            }
-                        }).create();
-        dialog.show();
     }
 
-    private interface OnConfirmResult {
-        void confirmResult(boolean confirm);
+    /**
+     * 将大悬浮窗从屏幕上移除。
+     *
+     * @param context
+     *            必须为应用程序的Context.
+     */
+    public static void removeBigWindow(Context context) {
+        if (bigWindow != null) {
+            WindowManager windowManager = getWindowManager(context);
+            windowManager.removeView(bigWindow);
+            bigWindow = null;
+        }
     }
 
-    private int dp2px(Context context, float dp){
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
+    /**
+     * 用于获取手机可用内存。
+     */
+    private static ActivityManager getActivityManager(Context context) {
+        if (mActivityManager == null) {
+            mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        }
+        return mActivityManager;
+    }
+
+
+    private static WindowManager getWindowManager(Context context) {
+        if (mWindowManager == null) {
+            mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        }
+        return mWindowManager;
     }
 }

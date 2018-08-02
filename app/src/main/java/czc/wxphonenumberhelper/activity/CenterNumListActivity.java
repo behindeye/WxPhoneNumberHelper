@@ -12,14 +12,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnItemClick;
 import czc.wxphonenumberhelper.R;
+import czc.wxphonenumberhelper.base.BaseActivity;
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.presenter.CenterNumPresenter;
-import czc.wxphonenumberhelper.view.ICenterNumView;
+import czc.wxphonenumberhelper.view.Center4NumView;
 
 /**
  * 选择中间4位区段号
  */
-public class CenterNumListActivity extends BaseActivity implements ICenterNumView {
+public class CenterNumListActivity extends BaseActivity implements Center4NumView {
 
     @BindView(R.id.lv_center_number)
     ListView mCenterNumListView;

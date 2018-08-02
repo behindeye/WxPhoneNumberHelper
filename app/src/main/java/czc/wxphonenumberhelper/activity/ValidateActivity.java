@@ -15,6 +15,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import czc.wxphonenumberhelper.R;
+import czc.wxphonenumberhelper.base.BaseActivity;
 import czc.wxphonenumberhelper.constant.Const;
 import czc.wxphonenumberhelper.util.WxAppUtil;
 import czc.wxphonenumberhelper.util.Md5;
