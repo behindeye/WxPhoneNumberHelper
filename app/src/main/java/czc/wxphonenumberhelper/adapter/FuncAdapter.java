@@ -19,7 +19,7 @@ import czc.wxphonenumberhelper.activity.ValidateActivity;
 import czc.wxphonenumberhelper.model.FuncItem;
 import czc.wxphonenumberhelper.ui.DialogView;
 import czc.wxphonenumberhelper.ui.OnDialogClickListener;
-import czc.wxphonenumberhelper.util.AppUtil;
+import czc.wxphonenumberhelper.util.WxAppUtil;
 
 /**
  * Created by czc on 2017/7/7.
@@ -67,7 +67,7 @@ public class FuncAdapter extends RecyclerView.Adapter<FuncAdapter.FuncHolder> {
                     int pos = holder.getLayoutPosition();
                     if (mOnItemClickLitener != null) {
                         if (mFuncItemList.get(pos).isNeedValidate) {
-                            if (AppUtil.isValiditySoftWare()) {
+                            if (WxAppUtil.isValiditySoftWare()) {
                                 mOnItemClickLitener.onItemClick(pos);
                             } else {
                                 dv.show();

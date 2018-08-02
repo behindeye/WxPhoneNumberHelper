@@ -3,6 +3,7 @@ package czc.wxphonenumberhelper.presenter;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
@@ -59,7 +60,11 @@ public class MyWindowManager {
             smallWindow = new FloatWindowSmallView(context);
             if (smallWindowParams == null) {
                 smallWindowParams = new LayoutParams();
-                smallWindowParams.type = LayoutParams.TYPE_TOAST;
+				if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+					smallWindowParams.type = LayoutParams.TYPE_SYSTEM_ALERT;
+				}else {
+					smallWindowParams.type = LayoutParams.TYPE_TOAST;
+				}
                 smallWindowParams.format = PixelFormat.RGBA_8888;
                 smallWindowParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
                         | LayoutParams.FLAG_NOT_FOCUSABLE;
@@ -90,8 +95,12 @@ public class MyWindowManager {
                 bigWindowParams = new LayoutParams();
                 bigWindowParams.x = screenWidth / 2 - FloatWindowBigView.viewWidth / 2;
                 bigWindowParams.y = screenHeight / 2 - FloatWindowBigView.viewHeight / 2;
-                bigWindowParams.type = LayoutParams.TYPE_TOAST;
-                bigWindowParams.format = PixelFormat.RGBA_8888;
+				if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+					bigWindowParams.type = LayoutParams.TYPE_SYSTEM_ALERT;
+				}else {
+					bigWindowParams.type = LayoutParams.TYPE_TOAST;
+				}
+				bigWindowParams.format = PixelFormat.RGBA_8888;
                 bigWindowParams.gravity = Gravity.LEFT | Gravity.TOP;
                 bigWindowParams.width = FloatWindowBigView.viewWidth;
                 bigWindowParams.height = FloatWindowBigView.viewHeight;

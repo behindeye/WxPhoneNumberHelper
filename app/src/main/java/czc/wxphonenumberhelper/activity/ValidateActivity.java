@@ -16,7 +16,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import czc.wxphonenumberhelper.R;
 import czc.wxphonenumberhelper.constant.Const;
-import czc.wxphonenumberhelper.util.AppUtil;
+import czc.wxphonenumberhelper.util.WxAppUtil;
 import czc.wxphonenumberhelper.util.Md5;
 import czc.wxphonenumberhelper.util.PreferenceHelper;
 
@@ -38,7 +38,7 @@ public class ValidateActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if (!AppUtil.isValiditySoftWare()) {
+        if (!WxAppUtil.isValiditySoftWare()) {
             llLoginView.setVisibility(View.VISIBLE);
             btnLogin.setVisibility(View.VISIBLE);
             llSuccessView.setVisibility(View.GONE);

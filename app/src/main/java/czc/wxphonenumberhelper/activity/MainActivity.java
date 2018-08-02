@@ -27,9 +27,10 @@ import czc.wxphonenumberhelper.factory.FuncItemFactory;
 import czc.wxphonenumberhelper.manager.FloatWindowManager;
 import czc.wxphonenumberhelper.model.UserManager;
 import czc.wxphonenumberhelper.presenter.MyWindowManager;
+import czc.wxphonenumberhelper.service.WxHelperService;
 import czc.wxphonenumberhelper.ui.DialogView;
 import czc.wxphonenumberhelper.ui.OnDialogClickListener;
-import czc.wxphonenumberhelper.util.AppUtil;
+import czc.wxphonenumberhelper.util.WxAppUtil;
 import czc.wxphonenumberhelper.util.PreferenceHelper;
 
 /**
@@ -121,13 +122,7 @@ public class MainActivity extends BaseActivity {
 
     private void checkPermissonOrOpenWindow() {
         if (FloatWindowManager.getInstance().checkPermission(getApplicationContext())) {
-            if (!MyWindowManager.isWindowShowing()) {
-                try {
-                    MyWindowManager.createSmallWindow(getApplicationContext());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+      		startService(new Intent(this, WxHelperService.class));
         }else {
             FloatWindowManager.getInstance().applyPermission(getApplicationContext());
         }
@@ -165,11 +160,11 @@ public class MainActivity extends BaseActivity {
         PreferenceHelper.putBoolean(Const.PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG, false);
         PreferenceHelper.putInt(Const.PREF_KEY_ADD_PEOPLE_TYPE, addType);
         EventBus.getDefault().post(new Integer(addType));
-        if (!AppUtil.checkPermission()) {
+        if (!WxAppUtil.checkPermission()) {
             jumpSetting();
             mIsFirstJump = true;
         } else {
-            AppUtil.jumpToWx(this);
+            WxAppUtil.jumpToWx(this);
         }
     }
 
@@ -197,8 +192,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        if (mIsFirstJump && AppUtil.checkPermission()) {
-            AppUtil.jumpToWx(this);
+        if (mIsFirstJump && WxAppUtil.checkPermission()) {
+            WxAppUtil.jumpToWx(this);
             mIsFirstJump = false;
         }
         super.onResume();
@@ -230,7 +225,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void saveSomeMsg() {
-        if (AppUtil.isNewUser() && AppUtil.isValiditySoftWare()) {
+        if (WxAppUtil.isNewUser() && WxAppUtil.isValiditySoftWare()) {
             String manufacturer = android.os.Build.MANUFACTURER == null ? "" : android.os.Build.MANUFACTURER;
             String model = android.os.Build.MODEL == null ? "" : android.os.Build.MODEL;
             UserManager userManager = new UserManager();

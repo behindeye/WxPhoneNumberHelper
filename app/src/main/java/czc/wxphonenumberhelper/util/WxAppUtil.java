@@ -20,7 +20,7 @@ import static cn.bmob.v3.Bmob.getApplicationContext;
  * Created by czc on 2017/7/3.
  */
 
-public class AppUtil {
+public class WxAppUtil {
 
     /**
      * 判断软件是否激活
