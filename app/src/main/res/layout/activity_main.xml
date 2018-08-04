@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/ll"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/white">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/tool_bar"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ryv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"/>
+        android:overScrollMode="never" />
 
     <FrameLayout
         android:id="@+id/bannerContainer"
@@ -18,4 +21,4 @@
         android:layout_gravity="bottom"
         android:layout_marginTop="10dp"></FrameLayout>
 
-</FrameLayout>
+</LinearLayout>
