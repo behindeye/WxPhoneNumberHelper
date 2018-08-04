@@ -64,12 +64,12 @@ public class AddNearPeopleController extends BasePeopleController implements Add
 
     private void clickFindBtn() {
         Log.i("czc", "clickFindBtn");
-        findNodeByTextAndPerformClick(getRoot(), "发现");
+        findNodeByTextAndPerformClick(getRoot(), "发现",true);
     }
 
     private void clickNearPeopleLayout() {
         Log.i("czc", "clickNearPeopleLayout");
-        findNodeByTextAndPerformClick(getRoot(), "附近的人");
+        findNodeByTextAndPerformClick(getRoot(), "附近的人",true);
     }
 
     private void clickDialogOkBtn() {
@@ -116,6 +116,7 @@ public class AddNearPeopleController extends BasePeopleController implements Add
                                         clickNode = clickNode.getParent();
                                     }
                                     if (clickNode != null) {
+                                        root.recycle();
                                         NodeUtil.performClick(clickNode);
                                         break;
                                     }
@@ -193,7 +194,7 @@ public class AddNearPeopleController extends BasePeopleController implements Add
                     target.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
                 }
             }
-            NodeUtil.findNodeByTextAndPerformClick(root, "发送");
+//            NodeUtil.findNodeByTextAndPerformClick(root, "发送");
         }
     }
 

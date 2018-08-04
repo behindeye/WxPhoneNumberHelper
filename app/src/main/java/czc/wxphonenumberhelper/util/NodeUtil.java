@@ -35,6 +35,7 @@ public class NodeUtil {
         return false;
     }
 
+
     public static boolean performScroller(AccessibilityNodeInfo scrollerNode) {
         while (scrollerNode != null && !scrollerNode.isScrollable()) {
             scrollerNode = scrollerNode.getParent();
@@ -78,6 +79,44 @@ public class NodeUtil {
             boolean result = false;
             try {
                 //wait some times
+                result = clickNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                Thread.sleep(millis);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+        Log.e(TAG, "clickNode is null");
+        return false;
+    }
+
+    public static boolean findNodeByTextAndPerformClick(AccessibilityNodeInfo root, String text,boolean isNewPage) {
+        if (root == null)
+            return false;
+        List<AccessibilityNodeInfo> txtNodeInfoList = root.findAccessibilityNodeInfosByText(text);
+
+        if (txtNodeInfoList == null || txtNodeInfoList.isEmpty()) {
+            Log.e(TAG, "没有找到" + text + "按钮");
+            return false;
+        }
+        AccessibilityNodeInfo clickNode = null;
+        for (AccessibilityNodeInfo nodeInfo : txtNodeInfoList) {
+            if (nodeInfo.getText() != null && text.equals(nodeInfo.getText().toString())) {
+                clickNode = nodeInfo;
+                Log.i(TAG, "text= " + nodeInfo.getText());
+            }
+        }
+
+        while (clickNode != null && !clickNode.isClickable()) {
+            clickNode = clickNode.getParent();
+        }
+        if (clickNode != null) {
+            boolean result = false;
+            try {
+                //wait some times
+                if (isNewPage){
+                    root.recycle();
+                }
                 result = clickNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                 Thread.sleep(millis);
             } catch (Exception e) {
