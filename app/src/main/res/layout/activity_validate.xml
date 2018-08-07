@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context="czc.wxphonenumberhelper.activity.ValidateActivity">
+    tools:context="czc.lazyhelper.activity.ValidateActivity">
 
     <LinearLayout
         android:id="@+id/ll_login_view"

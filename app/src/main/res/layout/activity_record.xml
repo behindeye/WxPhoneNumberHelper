@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context="czc.wxphonenumberhelper.activity.RecordActivity">
+    tools:context="czc.lazyhelper.activity.RecordActivity">
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/lv_phone_number"

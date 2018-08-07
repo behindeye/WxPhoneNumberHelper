@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:padding="8dp"
-              tools:context="czc.wxphonenumberhelper.activity.FeedbackActivity">
+              tools:context="czc.lazyhelper.activity.FeedbackActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

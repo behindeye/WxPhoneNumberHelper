@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="czc.wxphonenumberhelper">
+    package="czc.lazyhelper">
 
     <!-- 允许联网 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -22,14 +22,14 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".MyApplication"
+        android:name="czc.lazyhelper.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name="czc.lazyhelper.activity.SplashActivity"
             android:theme="@style/Theme.AppStartLoad">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,42 +38,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
-            android:launchMode="singleTask"
+            android:name="czc.lazyhelper.activity.MainActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".activity.NumberActivity"
+            android:name="czc.lazyhelper.activity.NumberActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.CenterNumListActivity" />
-        <activity android:name=".activity.RecordActivity" />
+        <activity android:name="czc.lazyhelper.activity.CenterNumListActivity" />
+        <activity android:name="czc.lazyhelper.activity.RecordActivity" />
         <activity
-            android:name=".activity.CreateNumberActivity"
+            android:name="czc.lazyhelper.activity.CreateNumberActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.SentenceActivity"
+            android:name="czc.lazyhelper.activity.SentenceActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.ValidateActivity"
+            android:name="czc.lazyhelper.activity.ValidateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="cn.bmob.v3.update.UpdateDialogActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".activity.FeedbackActivity"
+            android:name="czc.lazyhelper.activity.FeedbackActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.qq.e.ads.ADActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
-        <activity android:name=".activity.HelpActivity" />
+        <activity android:name="czc.lazyhelper.activity.HelpActivity" />
 
         <service
             android:name="com.qq.e.comm.DownloadService"
             android:exported="false" />
         <service
-            android:name=".service.AutoAddPeopleService"
+            android:name="czc.lazyhelper.service.TaskService"
             android:enabled="true"
             android:exported="true"
             android:label="@string/app_name_setting"
@@ -87,15 +87,15 @@
                 android:resource="@xml/accessibility" />
         </service>
 
-        <activity android:name=".activity.GroupActivity" />
+        <activity android:name="czc.lazyhelper.activity.GroupActivity" />
 
         <service
-            android:name=".service.WxHelperService"
+            android:name="czc.lazyhelper.service.GuardService"
             android:enabled="true"
             android:exported="true"></service>
 
         <service
-            android:name=".service.WxHelperService$WxHelperInnerService"
+            android:name="czc.lazyhelper.service.GuardService$GuardInnerService"
             android:enabled="true"
             android:exported="true"></service>
     </application>
