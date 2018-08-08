@@ -52,7 +52,7 @@ public class CreateNumberPresenter implements PhonePresenter {
     public void createNumber() {
         mCreNumList.clear();
         createPhoneNumber(mNumber);
-		mView.showResult(mCreNumList);
+        mView.showResult(mCreNumList);
     }
 
     @Override
@@ -62,15 +62,16 @@ public class CreateNumberPresenter implements PhonePresenter {
             public void call(Subscriber<? super Boolean> subscriber) {
                 Log.i("czc", mCreNumList.size() + "个");
 
-                List<PhoneModel> recordList = new ArrayList<PhoneModel>();
+                List<PhoneModel> recordList = new ArrayList<>();
                 for (String number : mCreNumList) {
                     String name = mNumberFlag + number;
                     PhoneModel record = new PhoneModel();
                     record.setName(name);
                     record.setNumber(number);
                     recordList.add(record);
-                    ContactUtil.insert(MyApplication.getAppContext(), name, number);
+//                    ContactUtil.insert(MyApplication.getAppContext(), name, number);
                 }
+                ContactUtil.batchAddContact(MyApplication.getAppContext(), recordList);
                 DBManager.getInstance(MyApplication.getAppContext())
                         .getSession()
                         .getPhoneModelDao()
@@ -79,6 +80,7 @@ public class CreateNumberPresenter implements PhonePresenter {
                 subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
@@ -88,13 +90,13 @@ public class CreateNumberPresenter implements PhonePresenter {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-						mView.hideProgressDialog();
+                        mView.hideProgressDialog();
                     }
                 }).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
-                     	mView.success();
+                        mView.success();
                     }
                 });
 

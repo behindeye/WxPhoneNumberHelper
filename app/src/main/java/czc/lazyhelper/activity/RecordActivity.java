@@ -121,9 +121,10 @@ public class RecordActivity extends BaseActivity {
             public void call(Subscriber<? super Boolean> subscriber) {
                 PhoneModelDao phoneRecordDao = DBManager.getInstance(MyApplication.getAppContext()).getSession().getPhoneModelDao();
                 List<PhoneModel> recordList = phoneRecordDao.loadAll();
-                for (PhoneModel record : recordList) {
-                    ContactUtil.delete(RecordActivity.this, record.getName());
-                }
+//                for (PhoneModel record : recordList) {
+//                    ContactUtil.delete(RecordActivity.this, record.getName());
+//                }
+                ContactUtil.batchDelContact(RecordActivity.this,recordList);
                 phoneRecordDao.deleteAll();
                 mRecordNumList.clear();
                 subscriber.onNext(true);

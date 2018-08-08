@@ -24,11 +24,11 @@ import czc.lazyhelper.view.CreatePhoneView;
 /**
  * 生成号码
  */
-public class CreateNumberActivity extends BaseActivity implements CreatePhoneView{
+public class CreateNumberActivity extends BaseActivity implements CreatePhoneView {
     private List<String> mCreNumList = new ArrayList<>();
     private ArrayAdapter<String> mListAdapter;
     private CreateNumberPresenter mController;
-	private ProgressDialog mDialog;
+    private ProgressDialog mDialog;
 
     @BindView(R.id.lv_phone_number)
     ListView mPhoneNumListView;
@@ -44,9 +44,9 @@ public class CreateNumberActivity extends BaseActivity implements CreatePhoneVie
 
     @Override
     protected void initView() {
-		mDialog = new ProgressDialog(this);
-		mDialog.setMessage("正在生成中，请耐心等待···");
-		mDialog.setCanceledOnTouchOutside(false);
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage("正在生成中，请耐心等待···");
+        mDialog.setCanceledOnTouchOutside(false);
 
         mListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mCreNumList);
         mPhoneNumListView.setAdapter(mListAdapter);
@@ -85,31 +85,48 @@ public class CreateNumberActivity extends BaseActivity implements CreatePhoneVie
         }
     }
 
-	@Override
-	public void showProgressDialog() {
-		mDialog.show();
-	}
+    @Override
+    public void showProgressDialog() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mDialog.show();
+            }
+        });
+    }
 
-	@Override
-	public void hideProgressDialog() {
-		if (mDialog.isShowing()) {
-			mDialog.hide();
-		}
-	}
+    @Override
+    public void hideProgressDialog() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mDialog.isShowing()) {
+                    mDialog.hide();
+                }
+            }
+        });
+    }
 
-	@Override
-	public void showResult(List<String> data) {
-		mCreNumList.clear();
-		mCreNumList.addAll(data);
-		mListAdapter.notifyDataSetChanged();
-	}
+    @Override
+    public void showResult(List<String> data) {
+        toast("共生成" + data.size() + "条号码");
+        mCreNumList.clear();
+        mCreNumList.addAll(data);
+        mListAdapter.notifyDataSetChanged();
+    }
 
-	@Override
-	public void success() {
-    	hideProgressDialog();
-		ToastUtil.showToast(this, "保存成功");
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
-		finish();
-	}
+    @Override
+    public void success() {
+        hideProgressDialog();
+        ToastUtil.showToast(this, "保存成功");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        hideProgressDialog();
+    }
 }

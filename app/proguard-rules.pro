@@ -46,7 +46,7 @@
 -keep public class android.support.design.R$* { *; }
 
 -keep public class czc.wxphonenumberhelper.model.** { *; }
--keep class czc.wxphonenumberhelper.service.AutoAddPeopleService{*;}
+-keep class czc.wxphonenumberhelper.service.WxTaskService{*;}
 
 # 保留support下的所有类及其内部类
 -keep class android.support.** {*;}
