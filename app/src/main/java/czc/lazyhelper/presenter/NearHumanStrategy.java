@@ -1,6 +1,5 @@
 package czc.lazyhelper.presenter;
 
-import android.accessibilityservice.AccessibilityService;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import java.util.List;
 import java.util.Random;
 
-import czc.lazyhelper.service.TaskService;
 import czc.lazyhelper.util.NodeUtil;
 
 import static czc.lazyhelper.util.NodeUtil.findNodeByTextAndClick;
@@ -21,19 +19,10 @@ import static czc.lazyhelper.util.NodeUtil.traverseNodeByClassList;
  * 自动加附近的人
  */
 
-public class AddNearHumanPresenter extends BaseTaskPresenter {
-
-    private int mType;
-    private String mClassName;
-
-
-
-    public AddNearHumanPresenter(TaskService service) {
-        super(service);
-    }
+public class NearHumanStrategy extends BaseTaskStrategy {
 
     @Override
-    public void doTask(AccessibilityEvent event) {
+    public void doTask(AccessibilityEvent event, AccessibilityNodeInfo nodeInfo) {
         mType = event.getEventType();
         mClassName = (String) event.getClassName();
         Log.e(TAG, event(mType));
@@ -160,7 +149,7 @@ public class AddNearHumanPresenter extends BaseTaskPresenter {
                 }
                 if (mRecordMap.containsKey(userName) && mRecordMap.get(userName)) {
                     Log.i("czc", "click back btn ·····");
-                    mService.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
+                    performBack();
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {

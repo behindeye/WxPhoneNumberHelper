@@ -1,6 +1,7 @@
 package czc.lazyhelper.service;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
@@ -12,10 +13,8 @@ import czc.lazyhelper.constant.Const;
 import czc.lazyhelper.event.EasyEvent;
 import czc.lazyhelper.event.EasyEventBuilder;
 import czc.lazyhelper.event.EventType;
-import czc.lazyhelper.presenter.AddContactController;
-import czc.lazyhelper.presenter.AddNearHumanPresenter;
-import czc.lazyhelper.presenter.AddNearHumanPresenter2;
-import czc.lazyhelper.presenter.BaseTaskPresenter;
+import czc.lazyhelper.manager.TaskManager;
+import czc.lazyhelper.presenter.TaskStrategy;
 import czc.lazyhelper.util.PreferenceHelper;
 import czc.lazyhelper.view.TaskView;
 
@@ -26,7 +25,7 @@ import czc.lazyhelper.view.TaskView;
 public class TaskService extends AccessibilityService implements TaskView {
 
     private static final String TAG = "TaskService";
-    private BaseTaskPresenter mController;
+    private TaskStrategy taskStrategy;
 
     /**
      * 服务没有连接
@@ -52,15 +51,16 @@ public class TaskService extends AccessibilityService implements TaskView {
     protected void onServiceConnected() {
         SERVICE_STATUS = STATUS_CONNECT;
         Log.i(TAG, "onServiceConnected");
-        int type = PreferenceHelper.getInt(Const.PREF_KEY_ADD_PEOPLE_TYPE, Const.KEY_ADD_FRIEND);
-        if (type == Const.KEY_ADD_FRIEND) {
-            mController = new AddContactController(this);
-        } else if (type == Const.KEY_ADD_NEAR_PEOPLE) {
-            mController = new AddNearHumanPresenter2(this);
-        } else if (type == Const.KEY_QUICK_ADD_NEAR_PEOPLE) {
-            mController = new AddNearHumanPresenter(this);
-        }
-        mController.bindService(this);
+//        int type = PreferenceHelper.getInt(Const.PREF_KEY_ADD_PEOPLE_TYPE, Const.KEY_ADD_FRIEND);
+//        if (type == Const.KEY_ADD_FRIEND) {
+//            taskStrategy = new ContactStrategy();
+//        } else if (type == Const.KEY_ADD_NEAR_PEOPLE) {
+//            taskStrategy = new NearHumanStrategy2();
+//        } else if (type == Const.KEY_QUICK_ADD_NEAR_PEOPLE) {
+//            taskStrategy = new NearHumanStrategy();
+//        }
+		taskStrategy = TaskManager.getInstance().getTaskStrategy();
+        taskStrategy.bindTask(this);
 
         EasyEvent event = new EasyEventBuilder<Boolean>(EventType.TYPE_SERVICE_HAS_CONNECTED)
                 .setValue(true)
@@ -73,8 +73,8 @@ public class TaskService extends AccessibilityService implements TaskView {
         SERVICE_STATUS = STATUS_CONNECT;
         boolean canAutoAddPeople = PreferenceHelper.getBoolean(Const.PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG, false);
         if (!canAutoAddPeople) {
-            if (mController != null) {
-                mController.doTask(event, getRoot());
+            if (taskStrategy != null) {
+                taskStrategy.doTask(event, getRoot());
             }
         }
     }
@@ -101,8 +101,18 @@ public class TaskService extends AccessibilityService implements TaskView {
         performGlobalAction(GLOBAL_ACTION_BACK);
     }
 
-    @Override
+	@Override
+	public void performAction(int action) {
+		performGlobalAction(action);
+	}
+
+	@Override
     public AccessibilityNodeInfo getActiveRoot() {
         return getRootInActiveWindow();
     }
+
+	@Override
+	public Context getContext() {
+		return TaskService.this;
+	}
 }

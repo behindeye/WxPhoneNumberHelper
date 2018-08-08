@@ -1,5 +1,6 @@
 package czc.lazyhelper.view;
 
+import android.content.Context;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 /**
@@ -10,6 +11,10 @@ public interface TaskView {
 
     void performBack();
 
+    void performAction(int action);
+
     AccessibilityNodeInfo getActiveRoot();
+
+    Context getContext();
 
 }

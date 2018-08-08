@@ -1,20 +1,24 @@
 package czc.lazyhelper.manager;
 
+import czc.lazyhelper.presenter.NearHumanStrategy2;
+import czc.lazyhelper.presenter.TaskStrategy;
+
 /**
  * 任务配置
  * Created by czc on 2018/8/2.
  */
 
-class TaskConfig {
-    private static final TaskConfig ourInstance = new TaskConfig();
+public class TaskManager {
+    private static final TaskManager ourInstance = new TaskManager();
     private TaskMode mMode = TaskMode.NEAR_PEOPLE;
     private TaskStatus mStatus = TaskStatus.IDLE;
+    private TaskStrategy mStrategy = new NearHumanStrategy2();
 
-    static TaskConfig getInstance() {
+   public static TaskManager getInstance() {
         return ourInstance;
     }
 
-    private TaskConfig() {
+    private TaskManager() {
     }
 
     public void setCurrentTaskMode(TaskMode mode) {
@@ -32,4 +36,12 @@ class TaskConfig {
     public TaskStatus getTaskStatus() {
         return mStatus;
     }
+
+    public void setTaskStrategy(TaskStrategy strategy){
+    	mStrategy = strategy;
+	}
+
+	public TaskStrategy getTaskStrategy(){
+    	return mStrategy;
+	}
 }

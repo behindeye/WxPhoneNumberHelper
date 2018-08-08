@@ -6,7 +6,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.List;
 
-import czc.lazyhelper.service.TaskService;
 import czc.lazyhelper.util.NodeUtil;
 
 /**
@@ -14,17 +13,10 @@ import czc.lazyhelper.util.NodeUtil;
  * 快速加好友
  */
 
-public class QuickAddContactController extends BaseTaskPresenter {
-
-    private int mType;
-    private String mClassName;
-
-    public QuickAddContactController(TaskService service) {
-        super(service);
-    }
+public class QuickAddContactStrategy extends BaseTaskStrategy {
 
     @Override
-    public void doTask(AccessibilityEvent event) {
+    public void doTask(AccessibilityEvent event, AccessibilityNodeInfo nodeInfo) {
         mType = event.getEventType();
         mClassName = (String) event.getClassName();
         if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(LauncherUI)) {
