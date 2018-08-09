@@ -43,12 +43,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="czc.lazyhelper.activity.NumberActivity"
+            android:name="czc.lazyhelper.activity.ProduceActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="czc.lazyhelper.activity.CenterNumListActivity" />
+        <activity android:name="czc.lazyhelper.activity.CenterNumActivity" />
         <activity android:name="czc.lazyhelper.activity.RecordActivity" />
         <activity
-            android:name="czc.lazyhelper.activity.CreateNumberActivity"
+            android:name="czc.lazyhelper.activity.SavePhoneActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity

@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity {
 				String funcName = FuncItemFactory.getInstance().createFuncItems().get(position).funcName;
 				switch (funcName) {
 					case FuncItemFactory.CREAT_ENUMBER:
-						redirect(NumberActivity.class);
+						redirect(ProduceActivity.class);
 						break;
 //                    case FuncItemFactory.SHARE_GROUP:
 //                        redirect(GroupActivity.class);

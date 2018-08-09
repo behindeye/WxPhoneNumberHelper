@@ -23,7 +23,7 @@ public class FuncItemFactory {
     public static final String SHARE_GROUP = "群组分享";
     public static final String QUICK_CONTACTPEOPLE = "加手机好友";
     public static final String ADD_CONTACTPEOPLE = "自动加手机好友";
-    public static final String ADD_NEARPEOPLE = "向附近的人打招呼";
+    public static final String ADD_NEARPEOPLE = "加附近的人";
     public static final String STOP_ADD_PEOPLE = "停止加好友";
     public static final String FLOW_WINDOW = "显示悬浮窗";
     public static final String VALIDATE = "加人验证信息";
@@ -49,10 +49,10 @@ public class FuncItemFactory {
         List<FuncItem> list = new ArrayList<FuncItem>() {
             {
                 add(new FuncItem(CREAT_ENUMBER, "手机推荐好友", R.drawable.icon_contact, false));
-                add(new FuncItem(QUICK_CONTACTPEOPLE, "自动快速添加微信手机推荐好友", R.drawable.icon_auto, false));
-                add(new FuncItem(ADD_CONTACTPEOPLE, "自动添加微信手机推荐好友", R.drawable.icon_auto, false));
+                add(new FuncItem(QUICK_CONTACTPEOPLE, "自动快速添加微信手机好友", R.drawable.icon_auto, false));
+                add(new FuncItem(ADD_CONTACTPEOPLE, "自动添加微信手机好友", R.drawable.icon_auto, false));
                 add(new FuncItem(ADD_NEARPEOPLE, "自动向微信附近的人打招呼", R.drawable.icon_near, false));
-                add(new FuncItem(STOP_ADD_PEOPLE, "停止所有的加人操作", R.drawable.icon_stop, false));
+                add(new FuncItem(STOP_ADD_PEOPLE, "停止加人操作", R.drawable.icon_stop, false));
                 add(new FuncItem(FLOW_WINDOW, "显示悬浮窗", R.drawable.icon_flow_window, false));
                 add(new FuncItem(VALIDATE, "添加好友时输入的验证信息", R.drawable.icon_validate, false));
 //                add(new FuncItem(SOFT_VALIDATE, "激活软件使用", R.drawable.icon_validity, false));

@@ -18,6 +18,7 @@ import czc.lazyhelper.fragment.GroupPageFragment;
 import czc.lazyhelper.fragment.PublishGroupFragment;
 import czc.lazyhelper.model.GroupInfo;
 
+@Deprecated
 public class GroupActivity extends FragmentActivity implements BaseFragment.Host {
     @BindView(R.id.fl_content)
     FrameLayout mFlContent;

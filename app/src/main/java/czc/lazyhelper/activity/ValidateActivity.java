@@ -21,6 +21,7 @@ import czc.lazyhelper.util.WxAppUtil;
 import czc.lazyhelper.util.Md5;
 import czc.lazyhelper.util.PreferenceHelper;
 
+@Deprecated
 public class ValidateActivity extends BaseActivity {
 
     @BindView(R.id.et_account)

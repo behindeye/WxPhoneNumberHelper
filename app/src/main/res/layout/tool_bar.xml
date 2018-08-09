@@ -13,6 +13,7 @@
         app:navigationIcon="@drawable/ic_action_arrow_back"
         app:popupTheme="@style/ToolbarPopupTheme"
         app:theme="@style/ToolbarTheme"
+        app:title="@string/app_name"
         app:titleTextColor="@color/white">
 
     </android.support.v7.widget.Toolbar>

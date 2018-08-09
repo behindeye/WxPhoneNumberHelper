@@ -24,82 +24,71 @@ import czc.lazyhelper.view.TaskView;
  */
 public class TaskService extends AccessibilityService implements TaskView {
 
-    private static final String TAG = "TaskService";
-    private TaskStrategy taskStrategy;
+	private static final String TAG = "TaskService";
 
-    /**
-     * 服务没有连接
-     */
-    public static final int STATUS_UNCONNECT = 0;
-    /**
-     * 服务连接
-     */
-    public static final int STATUS_CONNECT = 1;
-    /**
-     * 服务状态
-     */
-    public static int SERVICE_STATUS = STATUS_UNCONNECT;
+	/**
+	 * 服务没有连接
+	 */
+	public static final int STATUS_UNCONNECT = 0;
+	/**
+	 * 服务连接
+	 */
+	public static final int STATUS_CONNECT = 1;
+	/**
+	 * 服务状态
+	 */
+	public static int SERVICE_STATUS = STATUS_UNCONNECT;
 
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand");
-        return super.onStartCommand(intent, flags, startId);
-    }
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		Log.i(TAG, "onStartCommand");
+		return super.onStartCommand(intent, flags, startId);
+	}
 
-    @Override
-    protected void onServiceConnected() {
-        SERVICE_STATUS = STATUS_CONNECT;
-        Log.i(TAG, "onServiceConnected");
-//        int type = PreferenceHelper.getInt(Const.PREF_KEY_ADD_PEOPLE_TYPE, Const.KEY_ADD_FRIEND);
-//        if (type == Const.KEY_ADD_FRIEND) {
-//            taskStrategy = new ContactStrategy();
-//        } else if (type == Const.KEY_ADD_NEAR_PEOPLE) {
-//            taskStrategy = new NearHumanStrategy2();
-//        } else if (type == Const.KEY_QUICK_ADD_NEAR_PEOPLE) {
-//            taskStrategy = new NearHumanStrategy();
-//        }
-		taskStrategy = TaskManager.getInstance().getTaskStrategy();
-        taskStrategy.bindTask(this);
+	@Override
+	protected void onServiceConnected() {
+		SERVICE_STATUS = STATUS_CONNECT;
+		Log.i(TAG, "onServiceConnected");
 
-        EasyEvent event = new EasyEventBuilder<Boolean>(EventType.TYPE_SERVICE_HAS_CONNECTED)
-                .setValue(true)
-                .build();
-        EventBus.getDefault().post(event);
-    }
+		TaskManager.getInstance().getTaskStrategy().bindTask(this);
 
-    @Override
-    public void onAccessibilityEvent(AccessibilityEvent event) {
-        SERVICE_STATUS = STATUS_CONNECT;
-        boolean canAutoAddPeople = PreferenceHelper.getBoolean(Const.PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG, false);
-        if (!canAutoAddPeople) {
-            if (taskStrategy != null) {
-                taskStrategy.doTask(event, getRoot());
-            }
-        }
-    }
+		EventBus.getDefault()
+				.post(new EasyEventBuilder<Boolean>(EventType.TYPE_SERVICE_HAS_CONNECTED)
+						.setValue(true)
+						.build());
+	}
 
-    public AccessibilityNodeInfo getRoot() {
-        return getRootInActiveWindow();
-    }
+	@Override
+	public void onAccessibilityEvent(AccessibilityEvent event) {
+		SERVICE_STATUS = STATUS_CONNECT;
+		boolean canAutoAddPeople = PreferenceHelper.getBoolean(Const.PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG, false);
+		if (!canAutoAddPeople) {
+			TaskManager.getInstance().getTaskStrategy().doTask(event, getRoot());
+		}
+	}
 
-    @Override
-    public void onInterrupt() {
-        SERVICE_STATUS = STATUS_UNCONNECT;
-        Log.e(TAG, "onInterrupt");
-    }
+	public AccessibilityNodeInfo getRoot() {
+		return getRootInActiveWindow();
+	}
 
-    @Override
-    public void onDestroy() {
-        SERVICE_STATUS = STATUS_UNCONNECT;
-        Log.e(TAG, "onDestroy");
-        getRootInActiveWindow().recycle();
-    }
+	@Override
+	public void onInterrupt() {
+		SERVICE_STATUS = STATUS_UNCONNECT;
+		Log.e(TAG, "onInterrupt");
+	}
 
-    @Override
-    public void performBack() {
-        performGlobalAction(GLOBAL_ACTION_BACK);
-    }
+	@Override
+	public void onDestroy() {
+		SERVICE_STATUS = STATUS_UNCONNECT;
+		Log.e(TAG, "onDestroy");
+		getRootInActiveWindow().recycle();
+	}
+
+	@Override
+	public void performBack() {
+		performGlobalAction(GLOBAL_ACTION_BACK);
+	}
 
 	@Override
 	public void performAction(int action) {
@@ -107,9 +96,9 @@ public class TaskService extends AccessibilityService implements TaskView {
 	}
 
 	@Override
-    public AccessibilityNodeInfo getActiveRoot() {
-        return getRootInActiveWindow();
-    }
+	public AccessibilityNodeInfo getActiveRoot() {
+		return getRootInActiveWindow();
+	}
 
 	@Override
 	public Context getContext() {
