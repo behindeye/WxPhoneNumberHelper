@@ -7,6 +7,7 @@ import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobInstallation;
 import czc.lazyhelper.constant.Const;
 import czc.lazyhelper.manager.DBManager;
+import czc.lazyhelper.manager.PathManager;
 import czc.lazyhelper.util.AbnormalHandler;
 import tech.linjiang.pandora.Pandora;
 
@@ -32,6 +33,7 @@ public class MyApplication extends Application {
         installation.save();
 
         DBManager.init(this);
+
 
         Pandora.init(this).enableShakeOpen();
         Pandora.init(this).open();

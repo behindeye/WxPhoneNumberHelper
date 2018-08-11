@@ -10,19 +10,13 @@ android {
             storeFile file('keystore.jks')
             storePassword 'asd123'
         }
-//        debug {
-//            keyAlias 'czc'
-//            keyPassword 'asd123'
-//            storeFile file('keystore.jks')
-//            storePassword 'asd123'
-//        }
     }
     compileSdkVersion 27
     buildToolsVersion "26.0.3"
     //**兼容Android6.0系统所需，如果这句话报错，可在dependencies标签下使用compile 'cn.bmob.android:http-legacy:1.0'**
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
-        applicationId "czc.lazyhelper"
+        applicationId "com.czc.lazyhelper"
         minSdkVersion 18
         targetSdkVersion 27
         versionCode 2
@@ -38,10 +32,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-//        debug {
-//            signingConfig signingConfigs.debug
-//
-//        }
     }
     //greendao配置
     greendao {
@@ -64,7 +54,7 @@ dependencies {
         exclude group: 'com.squareup.okio'
     }
     compile 'com.android.support:appcompat-v7:27.1.0'
-    compile 'com.android.support:design:27.1.1'
+    compile 'com.android.support:design:27.1.0'
     // butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -81,7 +71,7 @@ dependencies {
     // android util
     compile 'com.blankj:utilcode:1.17.3'
     // qmui
-    //    compile 'com.qmuiteam:qmui:1.1.3'
+        compile 'com.qmuiteam:qmui:1.1.3'
     debugCompile('com.github.whataa:pandora:v1.0.1') {
         exclude group: 'com.squareup.okhttp3'
         exclude group: 'com.squareup.okio'

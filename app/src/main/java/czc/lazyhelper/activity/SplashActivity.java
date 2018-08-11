@@ -12,7 +12,9 @@ import com.blankj.utilcode.util.PermissionUtils;
 
 import czc.lazyhelper.R;
 import czc.lazyhelper.base.BaseActivity;
+import czc.lazyhelper.constant.Const;
 import czc.lazyhelper.service.GuardService;
+import czc.lazyhelper.service.TaskIntentService;
 
 /**
  * 启动页
@@ -42,6 +44,9 @@ public class SplashActivity extends BaseActivity {
     protected void initData() {
 //        checkIsValidateAagin();
 //        getValidateFuncItemList();
+        Intent intent = new Intent(this, TaskIntentService.class);
+        intent.setAction(Const.ACTION_COPY_ASSET);
+        startService(intent);
         if (PermissionUtils.isGranted(permissions)) {
             delayJumpActivity(1500);
         } else {

@@ -22,11 +22,7 @@ import static czc.lazyhelper.util.NodeUtil.traverseNodeByClassList;
 public class NearHumanStrategy extends BaseTaskStrategy {
 
     @Override
-    public void doTask(AccessibilityEvent event, AccessibilityNodeInfo nodeInfo) {
-        mType = event.getEventType();
-        mClassName = (String) event.getClassName();
-        Log.e(TAG, event(mType));
-        Log.e(TAG, mClassName);
+    protected void performTask(AccessibilityEvent event, AccessibilityNodeInfo root) {
         if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(LauncherUI)) {
             clickFindBtn();
             try {

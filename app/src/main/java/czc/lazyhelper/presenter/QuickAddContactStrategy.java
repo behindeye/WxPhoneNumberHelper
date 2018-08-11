@@ -16,9 +16,7 @@ import czc.lazyhelper.util.NodeUtil;
 public class QuickAddContactStrategy extends BaseTaskStrategy {
 
     @Override
-    public void doTask(AccessibilityEvent event, AccessibilityNodeInfo nodeInfo) {
-        mType = event.getEventType();
-        mClassName = (String) event.getClassName();
+    protected void performTask(AccessibilityEvent event, AccessibilityNodeInfo root) {
         if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(LauncherUI)) {
             clickTxlBtn();
         } else if (mType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && mClassName.equals(LIST_VIEW)

@@ -7,10 +7,11 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.blankj.utilcode.util.ToastUtils;
+
 import org.greenrobot.eventbus.EventBus;
 
 import czc.lazyhelper.constant.Const;
-import czc.lazyhelper.event.EasyEvent;
 import czc.lazyhelper.event.EasyEventBuilder;
 import czc.lazyhelper.event.EventType;
 import czc.lazyhelper.manager.TaskManager;
@@ -51,8 +52,6 @@ public class TaskService extends AccessibilityService implements TaskView {
 		SERVICE_STATUS = STATUS_CONNECT;
 		Log.i(TAG, "onServiceConnected");
 
-		TaskManager.getInstance().getTaskStrategy().bindTask(this);
-
 		EventBus.getDefault()
 				.post(new EasyEventBuilder<Boolean>(EventType.TYPE_SERVICE_HAS_CONNECTED)
 						.setValue(true)
@@ -64,8 +63,16 @@ public class TaskService extends AccessibilityService implements TaskView {
 		SERVICE_STATUS = STATUS_CONNECT;
 		boolean canAutoAddPeople = PreferenceHelper.getBoolean(Const.PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG, false);
 		if (!canAutoAddPeople) {
-			TaskManager.getInstance().getTaskStrategy().doTask(event, getRoot());
-		}
+            try {
+                TaskStrategy strategy = TaskManager.getInstance().getTaskStrategy();
+                strategy.bindTask(this);
+                strategy.doTask(event, getRoot());
+            } catch (Exception e) {
+                e.printStackTrace();
+                ToastUtils.showShort("出现异常，返回重试···");
+                performBack();
+            }
+        }
 	}
 
 	public AccessibilityNodeInfo getRoot() {
@@ -104,4 +111,5 @@ public class TaskService extends AccessibilityService implements TaskView {
 	public Context getContext() {
 		return TaskService.this;
 	}
+
 }

@@ -19,7 +19,8 @@ import czc.lazyhelper.constant.Const;
 import czc.lazyhelper.event.EasyEvent;
 import czc.lazyhelper.event.EventType;
 import czc.lazyhelper.manager.FloatWindowManager;
-import czc.lazyhelper.util.WxAppUtil;
+import czc.lazyhelper.util.PreferenceHelper;
+import czc.lazyhelper.util.MyAppUtil;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
@@ -51,7 +52,8 @@ public class GuardService extends Service {
                         public void call(Long time) {
                             if (time > 3) {
                                 mSubscribe.unsubscribe();
-                                WxAppUtil.jumpToWx(GuardService.this);
+                                PreferenceHelper.putBoolean(Const.PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG, false);
+                                MyAppUtil.jumpToWx(GuardService.this);
                             } else {
                                 ToastUtils.showShort("倒计时" + (3 - time) + "s,即将跳转到微信");
                             }
@@ -86,6 +88,7 @@ public class GuardService extends Service {
                 }
             }
         }
+
         if (Build.VERSION.SDK_INT < 18) {
             startForeground(SERVICE_ID, new Notification());
             startService(new Intent(this, GuardInnerService.class));

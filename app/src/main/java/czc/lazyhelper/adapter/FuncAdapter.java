@@ -19,7 +19,7 @@ import czc.lazyhelper.activity.ValidateActivity;
 import czc.lazyhelper.model.FuncItem;
 import czc.lazyhelper.ui.DialogView;
 import czc.lazyhelper.ui.OnDialogClickListener;
-import czc.lazyhelper.util.WxAppUtil;
+import czc.lazyhelper.util.MyAppUtil;
 
 /**
  * Created by czc on 2017/7/7.
@@ -67,7 +67,7 @@ public class FuncAdapter extends RecyclerView.Adapter<FuncAdapter.FuncHolder> {
                     int pos = holder.getLayoutPosition();
                     if (mOnItemClickLitener != null) {
                         if (mFuncItemList.get(pos).isNeedValidate) {
-                            if (WxAppUtil.isValiditySoftWare()) {
+                            if (MyAppUtil.isValiditySoftWare()) {
                                 mOnItemClickLitener.onItemClick(pos);
                             } else {
                                 dv.show();

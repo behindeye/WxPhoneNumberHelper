@@ -17,7 +17,7 @@ import cn.bmob.v3.listener.FindListener;
 import czc.lazyhelper.R;
 import czc.lazyhelper.base.BaseActivity;
 import czc.lazyhelper.constant.Const;
-import czc.lazyhelper.util.WxAppUtil;
+import czc.lazyhelper.util.MyAppUtil;
 import czc.lazyhelper.util.Md5;
 import czc.lazyhelper.util.PreferenceHelper;
 
@@ -40,7 +40,7 @@ public class ValidateActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if (!WxAppUtil.isValiditySoftWare()) {
+        if (!MyAppUtil.isValiditySoftWare()) {
             llLoginView.setVisibility(View.VISIBLE);
             btnLogin.setVisibility(View.VISIBLE);
             llSuccessView.setVisibility(View.GONE);

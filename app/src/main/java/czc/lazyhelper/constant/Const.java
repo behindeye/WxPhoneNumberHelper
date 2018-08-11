@@ -20,6 +20,7 @@ public class Const {
     public static final String PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG = "PREF_KEY_STOP_AUTO_ADD_PEOPLE_FLAG";
     public static final String PREF_KEY_ADD_PEOPLE_TYPE = "PREF_KEY_ADD_PEOPLE_TYPE";
     public static final String PREF_KEY_VALIDATE_FUNC_ITEM_LIST = "PREF_KEY_VALIDATE_FUNC_ITEM_LIST";
+    public static final String PREF_IS_STOP_MONITOR_THREAD = "PREF_IS_STOP_MONITOR_THREAD";
 
     public static final String PREF_KEY_SENTENCE = "PREF_KEY_SENTENCE";
     public static final String PREF_KEY_ACTIVATE = "PREF_KEY_ACTIVATE";
@@ -43,6 +44,7 @@ public class Const {
 
     //action
     public static final String ACTION_CLEAR_RECORD = "ACTION_CLEAR_RECORD";
+    public static final String ACTION_COPY_ASSET = "ACTION_COPY_ASSET";
 
     //fragment
     public static final int GROUP_LIST_FRAMENT = 0;

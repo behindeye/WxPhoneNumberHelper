@@ -9,6 +9,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.AppUtils;
+
 import java.lang.reflect.Method;
 
 import czc.lazyhelper.constant.Const;
@@ -20,7 +22,7 @@ import static cn.bmob.v3.Bmob.getApplicationContext;
  * Created by czc on 2017/7/3.
  */
 
-public class WxAppUtil {
+public class MyAppUtil {
 
     /**
      * 判断软件是否激活
@@ -115,4 +117,13 @@ public class WxAppUtil {
         }
         return false;
     }
+
+    /**
+     * 获取微信版本号
+     * @return
+     */
+    public static String getWechatVersion(){
+        return AppUtils.getAppVersionName("com.tencent.mm");
+    }
+
 }

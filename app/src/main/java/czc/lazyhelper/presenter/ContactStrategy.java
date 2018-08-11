@@ -1,6 +1,5 @@
 package czc.lazyhelper.presenter;
 
-import android.accessibilityservice.AccessibilityService;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import java.util.List;
 import java.util.Random;
 
-import czc.lazyhelper.service.TaskService;
 import czc.lazyhelper.util.NodeUtil;
 
 import static czc.lazyhelper.util.NodeUtil.sleep;
@@ -23,43 +21,37 @@ import static czc.lazyhelper.util.NodeUtil.traverseNodeByClassList;
 
 public class ContactStrategy extends BaseTaskStrategy {
 
-	private int mType;
-	private String mClassName;
+    @Override
+    protected void performTask(AccessibilityEvent event, AccessibilityNodeInfo root) {
+        if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(LauncherUI)) {
+            clickTxlBtn(root);
+        } else if (mType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && mClassName.equals(LIST_VIEW)
+                || mType == AccessibilityEvent.TYPE_VIEW_SCROLLED && mClassName.equals(WxViewPager)) {
+            clickNewFriend(root);
+        } else if (mType == AccessibilityEvent.TYPE_VIEW_SCROLLED && mClassName.equals(LIST_VIEW)
+                || mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(FMessageConversationUI)) {
+            beginAddPeople(root);
+        } else if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(ContactInfoUI)
+                || mType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && mClassName.equals(TEXT_VIEW)) {
+            peoPleInfoUI(root);
+        } else if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(SayHiWithSnsPermissionUI)) {
+            sayHiToPeoPle(root);
+        }
+    }
 
-	@Override
-	public void doTask(AccessibilityEvent event, AccessibilityNodeInfo nodeInfo) {
-		mType = event.getEventType();
-		mClassName = (String) event.getClassName();
-		if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(LauncherUI)) {
-			clickTxlBtn();
-		} else if (mType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && mClassName.equals(LIST_VIEW)
-				|| mType == AccessibilityEvent.TYPE_VIEW_SCROLLED && mClassName.equals(WxViewPager)) {
-			clickNewFriend();
-		} else if (mType == AccessibilityEvent.TYPE_VIEW_SCROLLED && mClassName.equals(LIST_VIEW)
-				|| mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(FMessageConversationUI)) {
-			beginAddPeople();
-		} else if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(ContactInfoUI)
-				|| mType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && mClassName.equals(TEXT_VIEW)) {
-			peoPleInfoUI();
-		} else if (mType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && mClassName.equals(SayHiWithSnsPermissionUI)) {
-			sayHiToPeoPle();
-		}
+    private void clickTxlBtn(AccessibilityNodeInfo root) {
+		NodeUtil.findNodeByTextAndClick(root, "通讯录");
 	}
 
-	private void clickTxlBtn() {
-		NodeUtil.findNodeByTextAndClick(getRoot(), "通讯录");
-	}
-
-	private void clickNewFriend() {
-		boolean result = NodeUtil.findNodeByTextAndClick(getRoot(), "新的朋友");
+	private void clickNewFriend(AccessibilityNodeInfo root) {
+		boolean result = NodeUtil.findNodeByTextAndClick(root, "新的朋友");
 		if (!result) {
-			NodeUtil.findNodeByTextAndClick(getRoot(), "朋友推荐");
+			NodeUtil.findNodeByTextAndClick(root, "朋友推荐");
 		}
 	}
 
-	private void beginAddPeople() {
+	private void beginAddPeople(AccessibilityNodeInfo root) {
 		AccessibilityNodeInfo scrllorNodeInfo = null;
-		AccessibilityNodeInfo root = getRoot();
 		if (root != null) {
 			scrllorNodeInfo = NodeUtil.findNodeByClassNameAndTime(root, LIST_VIEW, 1);
 			if (scrllorNodeInfo == null) {
@@ -100,8 +92,7 @@ public class ContactStrategy extends BaseTaskStrategy {
 		}
 	}
 
-	private void peoPleInfoUI() {
-		AccessibilityNodeInfo root = getRoot();
+	private void peoPleInfoUI(AccessibilityNodeInfo root) {
 		if (root != null) {
 			//如果可以发消息，说明已经加为好友
 			List<AccessibilityNodeInfo> sendBtnNodeList = root.findAccessibilityNodeInfosByText("发消息");
@@ -146,9 +137,8 @@ public class ContactStrategy extends BaseTaskStrategy {
 		}
 	}
 
-	private void sayHiToPeoPle() {
+	private void sayHiToPeoPle(AccessibilityNodeInfo root) {
 		//找到当前获取焦点的view
-		AccessibilityNodeInfo root = getRoot();
 		if (root != null) {
 			AccessibilityNodeInfo target = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
 			if (target != null && Build.VERSION.SDK_INT >= 21) {
