@@ -20,7 +20,7 @@ public class MyApplication extends Application {
     /**
      * SDK初始化也可以放到Application中
      */
-    public static String APPID = "a28a536d06cc4c9c4ad4fa3fa14c9907";
+    public static String APPID = "";
     private static Context context;
 
     @Override
